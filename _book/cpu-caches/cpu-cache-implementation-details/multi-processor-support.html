@@ -1,0 +1,1429 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-tw" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>3.3.4. 多处理器支援 · 每位程式開發者都該有的記憶體知識</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-katex/katex.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-prism/prism.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-alerts/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-comscore/test.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="other-details.html" />
+    
+    
+    <link rel="prev" href="write-behavior.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"buttons":[{"user":"sysprog21","repo":"cpumemory-zhtw","type":"star","size":"small"}]};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="輸入並搜尋" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    关于
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../introduction.html">
+            
+                <a href="../../introduction.html">
+            
+                    
+                    1. 引言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../../commodity-hardware-today.html">
+            
+                <a href="../../commodity-hardware-today.html">
+            
+                    
+                    2. 现代商用硬件
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../../commodity-hardware-today/ram-types.html">
+            
+                <a href="../../commodity-hardware-today/ram-types.html">
+            
+                    
+                    2.1. RAM 的种类
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.1" data-path="../../commodity-hardware-today/ram-types/static-ram.html">
+            
+                <a href="../../commodity-hardware-today/ram-types/static-ram.html">
+            
+                    
+                    2.1.1. 静态 RAM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.2" data-path="../../commodity-hardware-today/ram-types/dynamic-ram.html">
+            
+                <a href="../../commodity-hardware-today/ram-types/dynamic-ram.html">
+            
+                    
+                    2.1.2. 动态 RAM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.3" data-path="../../commodity-hardware-today/ram-types/dram-access.html">
+            
+                <a href="../../commodity-hardware-today/ram-types/dram-access.html">
+            
+                    
+                    2.1.3. DRAM 存取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.4" data-path="../../commodity-hardware-today/ram-types/conclusions.html">
+            
+                <a href="../../commodity-hardware-today/ram-types/conclusions.html">
+            
+                    
+                    2.1.4. 结论
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../../commodity-hardware-today/dram-access-technical-details.html">
+            
+                <a href="../../commodity-hardware-today/dram-access-technical-details.html">
+            
+                    
+                    2.2. DRAM 存取技术细节
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.2.1" data-path="../../commodity-hardware-today/dram-access-technical-details/read-access-protocol.html">
+            
+                <a href="../../commodity-hardware-today/dram-access-technical-details/read-access-protocol.html">
+            
+                    
+                    2.2.1. 读取协议
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.2" data-path="../../commodity-hardware-today/dram-access-technical-details/precharge-and-activation.html">
+            
+                <a href="../../commodity-hardware-today/dram-access-technical-details/precharge-and-activation.html">
+            
+                    
+                    2.2.2. 预充电与有效化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.3" data-path="../../commodity-hardware-today/dram-access-technical-details/recharging.html">
+            
+                <a href="../../commodity-hardware-today/dram-access-technical-details/recharging.html">
+            
+                    
+                    2.2.3. 再充电
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.4" data-path="../../commodity-hardware-today/dram-access-technical-details/memory-types.html">
+            
+                <a href="../../commodity-hardware-today/dram-access-technical-details/memory-types.html">
+            
+                    
+                    2.2.4. memory类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.5" data-path="../../commodity-hardware-today/dram-access-technical-details/conclusions.html">
+            
+                <a href="../../commodity-hardware-today/dram-access-technical-details/conclusions.html">
+            
+                    
+                    2.2.5. 结论
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../../commodity-hardware-today/other-main-memory-users.html">
+            
+                <a href="../../commodity-hardware-today/other-main-memory-users.html">
+            
+                    
+                    2.3. 其它主memory使用者
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../../cpu-caches.html">
+            
+                <a href="../../cpu-caches.html">
+            
+                    
+                    3. CPU cache
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../cpu-caches-in-the-big-picture.html">
+            
+                <a href="../cpu-caches-in-the-big-picture.html">
+            
+                    
+                    3.1. 概观 CPU cache
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../cache-operation-at-high-level.html">
+            
+                <a href="../cache-operation-at-high-level.html">
+            
+                    
+                    3.2. 高阶cache操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../cpu-cache-implementation-details.html">
+            
+                <a href="../cpu-cache-implementation-details.html">
+            
+                    
+                    3.3. CPU cache实作细节
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.3.1" data-path="associativity.html">
+            
+                <a href="associativity.html">
+            
+                    
+                    3.3.1. 关联度
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.2" data-path="measurements-of-cache-effects.html">
+            
+                <a href="measurements-of-cache-effects.html">
+            
+                    
+                    3.3.2. cache影响的量测
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.3" data-path="write-behavior.html">
+            
+                <a href="write-behavior.html">
+            
+                    
+                    3.3.3. 写入行为
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4.3.4" data-path="multi-processor-support.html">
+            
+                <a href="multi-processor-support.html">
+            
+                    
+                    3.3.4. 多处理器支援
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.5" data-path="other-details.html">
+            
+                <a href="other-details.html">
+            
+                    
+                    3.3.5. 其它细节
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../instruction-cache.html">
+            
+                <a href="../instruction-cache.html">
+            
+                    
+                    3.4. 指令cache
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.4.1" data-path="../instruction-cache/self-modifying-code.html">
+            
+                <a href="../instruction-cache/self-modifying-code.html">
+            
+                    
+                    3.4.1. 自我修改的程序码
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../cache-miss-factors.html">
+            
+                <a href="../cache-miss-factors.html">
+            
+                    
+                    3.5. cache错失的因素
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.5.1" data-path="../cache-miss-factors/cache-and-memory-bandwidth.html">
+            
+                <a href="../cache-miss-factors/cache-and-memory-bandwidth.html">
+            
+                    
+                    3.5.1. cache与memory频宽
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5.2" data-path="../cache-miss-factors/critical-word-load.html">
+            
+                <a href="../cache-miss-factors/critical-word-load.html">
+            
+                    
+                    3.5.2. 关键字组的载入
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5.3" data-path="../cache-miss-factors/cache-placement.html">
+            
+                <a href="../cache-miss-factors/cache-placement.html">
+            
+                    
+                    3.5.3. cache的配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5.4" data-path="../cache-miss-factors/fsb-influence.html">
+            
+                <a href="../cache-miss-factors/fsb-influence.html">
+            
+                    
+                    3.5.4. FSB 的影响
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../../virtual-memory.html">
+            
+                <a href="../../virtual-memory.html">
+            
+                    
+                    4. 虚拟memory
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../../virtual-memory/simplest-address-translation.html">
+            
+                <a href="../../virtual-memory/simplest-address-translation.html">
+            
+                    
+                    4.1. 最简单的地址转译
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../../virtual-memory/multi-level-page-tables.html">
+            
+                <a href="../../virtual-memory/multi-level-page-tables.html">
+            
+                    
+                    4.2. 多层级分页表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../../virtual-memory/optimizing-page-table-access.html">
+            
+                <a href="../../virtual-memory/optimizing-page-table-access.html">
+            
+                    
+                    4.3. 最佳化分页表存取
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.3.1" data-path="../../virtual-memory/optimizing-page-table-access/caveats-of-using-a-tlb.html">
+            
+                <a href="../../virtual-memory/optimizing-page-table-access/caveats-of-using-a-tlb.html">
+            
+                    
+                    4.3.1. 使用 TLB 的预警
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3.2" data-path="../../virtual-memory/optimizing-page-table-access/influencing-tlb-performance.html">
+            
+                <a href="../../virtual-memory/optimizing-page-table-access/influencing-tlb-performance.html">
+            
+                    
+                    4.3.2. 影响 TLB 效能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../../virtual-memory/impact-of-virtualization.html">
+            
+                <a href="../../virtual-memory/impact-of-virtualization.html">
+            
+                    
+                    4.4. 虚拟化的影响
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../../numa-support.html">
+            
+                <a href="../../numa-support.html">
+            
+                    
+                    5. NUMA 支援
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../../numa-support/numa-hardware.html">
+            
+                <a href="../../numa-support/numa-hardware.html">
+            
+                    
+                    5.1. NUMA 硬件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../../numa-support/os-support-for-numa.html">
+            
+                <a href="../../numa-support/os-support-for-numa.html">
+            
+                    
+                    5.2.操作系统对 NUMA 的支援
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../../numa-support/published-information.html">
+            
+                <a href="../../numa-support/published-information.html">
+            
+                    
+                    5.3. 被发布的资讯
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../../numa-support/remote-access-costs.html">
+            
+                <a href="../../numa-support/remote-access-costs.html">
+            
+                    
+                    5.4. 远端存取成本
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../../what-programmers-can-do.html">
+            
+                <a href="../../what-programmers-can-do.html">
+            
+                    
+                    6. 程序开发者能做些什么？
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../../what-programmers-can-do/bypassing-the-cache.html">
+            
+                <a href="../../what-programmers-can-do/bypassing-the-cache.html">
+            
+                    
+                    6.1. 绕过cache
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../../what-programmers-can-do/cache-access.html">
+            
+                <a href="../../what-programmers-can-do/cache-access.html">
+            
+                    
+                    6.2. cache存取
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.2.1" data-path="../../what-programmers-can-do/cache-access/optimizing-level-1-data-cache-access.html">
+            
+                <a href="../../what-programmers-can-do/cache-access/optimizing-level-1-data-cache-access.html">
+            
+                    
+                    6.2.1. 最佳化一阶资料cache存取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2.2" data-path="../../what-programmers-can-do/cache-access/optimizing-level-1-instruction-cache-access.html">
+            
+                <a href="../../what-programmers-can-do/cache-access/optimizing-level-1-instruction-cache-access.html">
+            
+                    
+                    6.2.2. 最佳化一阶指令cache存取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2.3" data-path="../../what-programmers-can-do/cache-access/optimizing-level-2-and-higher-cache-access.html">
+            
+                <a href="../../what-programmers-can-do/cache-access/optimizing-level-2-and-higher-cache-access.html">
+            
+                    
+                    6.2.3. 最佳化二阶与更高阶cache存取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2.4" data-path="../../what-programmers-can-do/cache-access/optimizing-tlb-usage.html">
+            
+                <a href="../../what-programmers-can-do/cache-access/optimizing-tlb-usage.html">
+            
+                    
+                    6.2.4. 最佳化 TLB 使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="../../what-programmers-can-do/prefetching.html">
+            
+                <a href="../../what-programmers-can-do/prefetching.html">
+            
+                    
+                    6.3. 预取
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.3.1" data-path="../../what-programmers-can-do/prefetching/hardware-prefetching.html">
+            
+                <a href="../../what-programmers-can-do/prefetching/hardware-prefetching.html">
+            
+                    
+                    6.3.1. 硬件预取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3.2" data-path="../../what-programmers-can-do/prefetching/software-prefetching.html">
+            
+                <a href="../../what-programmers-can-do/prefetching/software-prefetching.html">
+            
+                    
+                    6.3.2. 软件预取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3.3" data-path="../../what-programmers-can-do/prefetching/special-kind-of-prefetch-speculation.html">
+            
+                <a href="../../what-programmers-can-do/prefetching/special-kind-of-prefetch-speculation.html">
+            
+                    
+                    6.3.3. 特殊的预取类型：猜测
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3.4" data-path="../../what-programmers-can-do/prefetching/helper-threads.html">
+            
+                <a href="../../what-programmers-can-do/prefetching/helper-threads.html">
+            
+                    
+                    6.3.4. 辅助执行绪
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3.5" data-path="../../what-programmers-can-do/prefetching/direct-cache-access.html">
+            
+                <a href="../../what-programmers-can-do/prefetching/direct-cache-access.html">
+            
+                    
+                    6.3.5. 直接cache存取
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4" data-path="../../what-programmers-can-do/multi-thread-optimizations.html">
+            
+                <a href="../../what-programmers-can-do/multi-thread-optimizations.html">
+            
+                    
+                    6.4. 多执行绪最佳化
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.4.1" data-path="../../what-programmers-can-do/multi-thread-optimizations/concurrency-optimizations.html">
+            
+                <a href="../../what-programmers-can-do/multi-thread-optimizations/concurrency-optimizations.html">
+            
+                    
+                    6.4.1. 并行最佳化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4.2" data-path="../../what-programmers-can-do/multi-thread-optimizations/atomicity-optimizations.html">
+            
+                <a href="../../what-programmers-can-do/multi-thread-optimizations/atomicity-optimizations.html">
+            
+                    
+                    6.4.2. 最小操作的最佳化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4.3" data-path="../../what-programmers-can-do/multi-thread-optimizations/bandwidth-considerations.html">
+            
+                <a href="../../what-programmers-can-do/multi-thread-optimizations/bandwidth-considerations.html">
+            
+                    
+                    6.4.3. 频宽考量
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5" data-path="../../what-programmers-can-do/numa-programming.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming.html">
+            
+                    
+                    6.5. NUMA 程序设计
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.5.1" data-path="../../what-programmers-can-do/numa-programming/memory-policy.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/memory-policy.html">
+            
+                    
+                    6.5.1. memory策略
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5.2" data-path="../../what-programmers-can-do/numa-programming/specifying-policies.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/specifying-policies.html">
+            
+                    
+                    6.5.2. 指定策略
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5.3" data-path="../../what-programmers-can-do/numa-programming/swapping-and-policies.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/swapping-and-policies.html">
+            
+                    
+                    6.5.3. 置换与策略
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5.4" data-path="../../what-programmers-can-do/numa-programming/vma-policy.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/vma-policy.html">
+            
+                    
+                    6.5.4. VMA 策略
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5.5" data-path="../../what-programmers-can-do/numa-programming/querying-node-information.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/querying-node-information.html">
+            
+                    
+                    6.5.5. 查询节点资讯
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5.6" data-path="../../what-programmers-can-do/numa-programming/cpu-and-node-sets.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/cpu-and-node-sets.html">
+            
+                    
+                    6.5.6. CPU 与节点集合
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5.7" data-path="../../what-programmers-can-do/numa-programming/explicit-numa-optimizations.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/explicit-numa-optimizations.html">
+            
+                    
+                    6.5.7. 明确的 NUMA 最佳化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5.8" data-path="../../what-programmers-can-do/numa-programming/utilizing-all-bandwidth.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/utilizing-all-bandwidth.html">
+            
+                    
+                    6.5.8. 利用所有频宽
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../../examples-and-benchmark-programs.html">
+            
+                <a href="../../examples-and-benchmark-programs.html">
+            
+                    
+                    A. 范例与基准测试程序
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../../examples-and-benchmark-programs/matrix-multiplication.html">
+            
+                <a href="../../examples-and-benchmark-programs/matrix-multiplication.html">
+            
+                    
+                    A.1 矩阵乘法
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../../bibliography.html">
+            
+                <a href="../../bibliography.html">
+            
+                    
+                    参考书目
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本書使用 GitBook 釋出
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >3.3.4. 多处理器支援</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="334-&#x591A;&#x5904;&#x7406;&#x5668;&#x652F;&#x63F4;">3.3.4. &#x591A;&#x5904;&#x7406;&#x5668;&#x652F;&#x63F4;</h1>
+<p>&#x5728;&#x4E0A;&#x4E00;&#x8282;&#xFF0C;&#x6211;&#x4EEC;&#x5DF2;&#x7ECF;&#x6307;&#x51FA;&#xFF0C;&#x5F53;&#x591A;&#x5904;&#x7406;&#x5668;&#x5F00;&#x59CB;&#x8D77;&#x4F5C;&#x7528;&#x65F6;&#x6211;&#x4EEC;&#x4F1A;&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;&#x3002;&#x591A;&#x6838;&#x5904;&#x7406;&#x5668;&#x751A;&#x81F3;&#x6709;&#x90A3;&#x4E9B;&#x5E76;&#x6CA1;&#x6709;&#x88AB;&#x5171;&#x4EAB;&#x7684;cache&#x5C42;&#x7EA7;&#xFF08;&#x81F3;&#x5C11; L1d&#xFF09;&#x7684;&#x95EE;&#x9898;&#x3002;</p>
+<p>&#x63D0;&#x4F9B;&#x4ECE;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x5230;&#x53E6;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x7684;cache&#x7684;&#x76F4;&#x63A5;&#x5B58;&#x53D6;&#x662F;&#x5B8C;&#x5168;&#x4E0D;&#x5207;&#x5B9E;&#x9645;&#x7684;&#x3002;&#x9996;&#x5148;&#xFF0C;&#x8FDE;&#x7EBF;&#x6839;&#x672C;&#x4E0D;&#x591F;&#x5FEB;&#x3002;&#x5B9E;&#x9645;&#x7684;&#x66FF;&#x4EE3;&#x65B9;&#x6848;&#x662F;&#xFF0C;&#x5C06;cache&#x5185;&#x5BB9;&#x4F20;&#x8F93;&#x7ED9;&#x53E6;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668; &#x2013;&#x2013; &#x5047;&#x5982;&#x9700;&#x8981;&#x7684;&#x8BDD;&#x3002;&#x6CE8;&#x610F;&#x5230;&#x8FD9;&#x4E5F;&#x540C;&#x6837;&#x9002;&#x7528;&#x4E8E;&#x4E0D;&#x5728;&#x76F8;&#x540C;&#x5904;&#x7406;&#x5668;&#x4E0A;&#x5171;&#x4EAB;&#x7684;cache&#x3002;</p>
+<p>&#x73B0;&#x5728;&#x7684;&#x95EE;&#x9898;&#x662F;&#xFF0C;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x5F97;&#x4F20;&#x8F93;&#x8FD9;&#x4E2A;cache&#x884C;&#xFF1F;&#x8FD9;&#x662F;&#x4E2A;&#x76F8;&#x5F53;&#x5BB9;&#x6613;&#x56DE;&#x7B54;&#x7684;&#x95EE;&#x9898;&#xFF1A;&#x5F53;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x9700;&#x8981;&#x8BFB;&#x53D6;&#x6216;&#x5199;&#x5165;&#x4E00;&#x4E2A;cache&#x884C;&#xFF0C;&#x800C;&#x5176;&#x5728;&#x53E6;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x7684;cache&#x4E0A;&#x662F;&#x810F;&#x7684;&#x3002;&#x4F46;&#x5904;&#x7406;&#x5668;&#x8981;&#x600E;&#x4E48;&#x6837;&#x624D;&#x80FD;&#x5224;&#x65AD;&#x4E00;&#x4E2A;cache&#x884C;&#x5728;&#x53E6;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x7684;cache&#x4E0A;&#x662F;&#x810F;&#x7684;&#x5462;&#xFF1F;&#x4EC5;&#x56E0;&#x4E3A;&#x4E00;&#x4E2A;cache&#x884C;&#x88AB;&#x53E6;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x8F7D;&#x5165;&#x5C31;&#x5047;&#x5B9A;&#x5982;&#x6B64;&#xFF0C;&#xFF08;&#x81F3;&#x591A;&#xFF09;&#x4E5F;&#x662F;&#x6B21;&#x4F73;&#x7684;&#xFF08;suboptimal&#xFF09;&#x3002;&#x901A;&#x5E38;&#xFF0C;&#x5927;&#x591A;&#x6570;&#x7684;memory&#x5B58;&#x53D6;&#x90FD;&#x662F;&#x8BFB;&#x53D6;&#x64CD;&#x4F5C;&#xFF0C;&#x4EA7;&#x751F;&#x7684;cache&#x884C;&#x4E5F;&#x4E0D;&#x662F;&#x810F;&#x7684;&#x3002;&#x5904;&#x7406;&#x5668;&#x5BF9;cache&#x884C;&#x7684;&#x64CD;&#x4F5C;&#x662F;&#x5F88;&#x9891;&#x7E41;&#x7684;&#xFF08;&#x90A3;&#x5F53;&#x7136;&#xFF0C;&#x4E0D;&#x7136;&#x6211;&#x4EEC;&#x600E;&#x4E48;&#x4F1A;&#x6709;&#x8FD9;&#x7BC7;&#x8BBA;&#x6587;&#xFF1F;&#xFF09;&#xFF0C;&#x8FD9;&#x8868;&#x793A;&#x5728;&#x6BCF;&#x6B21;&#x5199;&#x5165;&#x64CD;&#x4F5C;&#x4E4B;&#x540E;&#xFF0C;&#x90FD;&#x53BB;&#x5E7F;&#x64AD;&#x88AB;&#x6539;&#x53D8;&#x7684;cache&#x884C;&#x7684;&#x8D44;&#x8BAF;&#x662F;&#x4E0D;&#x5207;&#x5B9E;&#x9645;&#x7684;&#x3002;</p>
+<p>&#x8FD9;&#x4E9B;&#x5E74;&#x6765;&#x6240;&#x53D1;&#x5C55;&#x51FA;&#x6765;&#x7684;&#x5C31;&#x662F; MESI cache&#x4E00;&#x81F4;&#x6027;&#x534F;&#x8BAE;&#xFF08;&#x4FEE;&#x6539;&#x3014;Modified&#x3015;&#x3001;&#x72EC;&#x5360;&#x3014;Exclusive&#x3015;&#x3001;&#x5171;&#x4EAB;&#x3014;Shared&#x3015;&#x3001;&#x65E0;&#x6548;&#x3014;Invalid&#x3015;&#xFF09;&#x3002;&#x8FD9;&#x4E2A;&#x534F;&#x8BAE;&#x7684;&#x540D;&#x79F0;&#x6765;&#x81EA;&#x91C7;&#x7528; MESI &#x534F;&#x8BAE;&#x65F6;&#x3001;&#x4E00;&#x4E2A;cache&#x884C;&#x80FD;&#x591F;&#x53D8;&#x6210;&#x7684;&#x56DB;&#x4E2A;&#x72B6;&#x6001;&#xFF1A;</p>
+<dl>
+  <dt>&#x4FEE;&#x6539;</dt>
+  <dd>&#x672C;&#x5730;&#x7684;&#x5904;&#x7406;&#x5668;&#x5DF2;&#x7ECF;&#x4FEE;&#x6539;&#x8FC7;cache&#x884C;&#x3002;&#x8FD9;&#x4E5F;&#x6697;&#x6307;&#x5B83;&#x662F;&#x5728;&#x4EFB;&#x4F55;cache&#x4E2D;&#x7684;&#x552F;&#x4E00;&#x526F;&#x672C;&#x3002;</dd>
+
+  <dt>&#x72EC;&#x5360;</dt>
+  <dd>cache&#x884C;&#x6CA1;&#x6709;&#x88AB;&#x4FEE;&#x6539;&#x8FC7;&#xFF0C;&#x4F46;&#x5DF2;&#x77E5;&#x6CA1;&#x6709;&#x88AB;&#x8F7D;&#x5165;&#x5230;&#x4EFB;&#x4F55;&#x5176;&#x5B83;&#x5904;&#x7406;&#x5668;&#x7684;cache&#x4E2D;&#x3002;</dd>
+
+  <dt>&#x5171;&#x4EAB;</dt>
+  <dd>cache&#x884C;&#x6CA1;&#x6709;&#x88AB;&#x4FEE;&#x6539;&#x8FC7;&#xFF0C;&#x5E76;&#x4E14;&#x53EF;&#x80FD;&#x5B58;&#x5728;&#x4E8E;&#x53E6;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x7684;cache&#x4E2D;&#x3002;</dd>
+
+  <dt>&#x65E0;&#x6548;</dt>
+  <dd>cache&#x884C;&#x662F;&#x65E0;&#x6548;&#x7684; &#x2013;&#x2013; &#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x6CA1;&#x6709;&#x88AB;&#x4F7F;&#x7528;&#x3002;</dd>
+</dl>
+
+<p>&#x591A;&#x5E74;&#x6765;&#xFF0C;&#x8FD9;&#x4E2A;&#x534F;&#x8BAE;&#x4ECE;&#x6BD4;&#x8F83;&#x4E0D;&#x590D;&#x6742;&#x3001;&#x4F46;&#x4E5F;&#x6BD4;&#x8F83;&#x6CA1;&#x6548;&#x7387;&#x7684;&#x8F83;&#x7B80;&#x6613;&#x7248;&#x672C;&#x5F00;&#x59CB;&#x53D1;&#x5C55;&#x3002;&#x6709;&#x4E86;&#x8FD9;&#x56DB;&#x4E2A;&#x72B6;&#x6001;&#xFF0C;&#x4FBF;&#x53EF;&#x80FD;&#x6709;&#x6548;&#x7387;&#x5730;&#x5B9E;&#x4F5C;&#x56DE;&#x5199;&#x5F0F;cache&#xFF0C;&#x800C;&#x53C8;&#x652F;&#x63F4;&#x540C;&#x65F6;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x5904;&#x7406;&#x5668;&#x4E0A;&#x4F7F;&#x7528;&#x552F;&#x8BFB;&#x7684;&#x8D44;&#x6599;&#x3002;</p>
+<figure>
+  <img src="../../assets/figure-3.18.png" alt="&#x56FE; 3.18&#xFF1A;MESI &#x534F;&#x8BAE;&#x7684;&#x72B6;&#x6001;&#x8F6C;&#x6362;">
+  <figcaption>&#x56FE; 3.18&#xFF1A;MESI &#x534F;&#x8BAE;&#x7684;&#x72B6;&#x6001;&#x8F6C;&#x6362;</figcaption>
+</figure>
+
+<p>&#x501F;&#x7531;&#x5904;&#x7406;&#x5668;&#x76D1;&#x542C; &#x2013;&#x2013; &#x6216;&#x8005;&#x7AA5;&#x63A2; &#x2013;&#x2013; &#x5176;&#x5B83;&#x5904;&#x7406;&#x5668;&#x7684;&#x8FD0;&#x4F5C;&#xFF0C;&#x4E0D;&#x7528;&#x592A;&#x591A;&#x7CBE;&#x529B;&#x4FBF;&#x5F97;&#x4EE5;&#x5B8C;&#x6210;&#x72B6;&#x6001;&#x6539;&#x53D8;&#x3002;&#x5904;&#x7406;&#x5668;&#x6267;&#x884C;&#x7684;&#x67D0;&#x4E9B;&#x64CD;&#x4F5C;&#x4F1A;&#x88AB;&#x53D1;&#x5E03;&#x5728;&#x5916;&#x90E8;&#x9488;&#x811A;&#x4E0A;&#xFF0C;&#x56E0;&#x800C;&#x8BA9;&#x5904;&#x7406;&#x5668;&#x7684;cache&#x5904;&#x7406;&#x80FD;&#x88AB;&#x5916;&#x754C;&#x770B;&#x5230;&#x3002;&#x5904;&#x7406;&#x4E2D;&#x7684;cache&#x884C;&#x5730;&#x5740;&#x80FD;&#x5728;&#x5730;&#x5740;&#x603B;&#x7EBF;&#x4E0A;&#x770B;&#x5230;&#x3002;&#x5728;&#x63A5;&#x4E0B;&#x6765;&#x5BF9;&#x72B6;&#x6001;&#x4E0E;&#x5176;&#x8F6C;&#x6362;&#xFF08;&#x663E;&#x793A;&#x5728;&#x56FE; 3.18&#xFF09;&#x7684;&#x63CF;&#x8FF0;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x6307;&#x51FA;&#x603B;&#x7EBF;&#x662F;&#x4F55;&#x65F6;&#x88AB;&#x7275;&#x626F;&#x8FDB;&#x6765;&#x7684;&#x3002;</p>
+<p>&#x8D77;&#x521D;&#x6240;&#x6709;cache&#x884C;&#x90FD;&#x662F;&#x7A7A;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x4E5F;&#x662F;<strong>&#x65E0;&#x6548;</strong>&#x7684;&#x3002;&#x82E5;&#x662F;&#x8D44;&#x6599;&#x662F;&#x4E3A;&#x4E86;&#x5199;&#x5165;&#x800C;&#x8F7D;&#x5165;cache&#xFF0C;&#x5219;&#x6539;&#x4E3A;<strong>&#x4FEE;&#x6539;</strong>&#x3002;&#x82E5;&#x662F;&#x8D44;&#x6599;&#x662F;&#x4E3A;&#x4E86;&#x8BFB;&#x53D6;&#x800C;&#x8F7D;&#x5165;&#xFF0C;&#x65B0;&#x7684;&#x72B6;&#x6001;&#x5219;&#x53D6;&#x51B3;&#x4E8E;&#x53E6;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x662F;&#x5426;&#x4E5F;&#x5DF2;&#x8F7D;&#x5165;&#x8FD9;&#x4E2A;cache&#x884C;&#x3002;&#x5982;&#x679C;&#x662F;&#x7684;&#x8BDD;&#xFF0C;&#x65B0;&#x7684;&#x72B6;&#x6001;&#x4E3A;<strong>&#x5171;&#x4EAB;</strong>&#xFF0C;&#x5426;&#x5219;&#x4E3A;<strong>&#x72EC;&#x5360;</strong>&#x3002;</p>
+<p>&#x82E5;&#x662F;&#x4E00;&#x4E2A;<strong>&#x4FEE;&#x6539;</strong>&#x7684;cache&#x884C;&#x4ECE;&#x672C;&#x5730;&#x5904;&#x7406;&#x5668;&#x88AB;&#x8BFB;&#x53D6;&#x6216;&#x5199;&#x5165;&#xFF0C;&#x8FD9;&#x4E2A;&#x6307;&#x4EE4;&#x80FD;&#x591F;&#x4F7F;&#x7528;&#x5F53;&#x524D;&#x7684;cache&#x5185;&#x5BB9;&#xFF0C;&#x5E76;&#x4E14;&#x72B6;&#x6001;&#x4E0D;&#x53D8;&#x3002;&#x82E5;&#x662F;&#x7B2C;&#x4E8C;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x60F3;&#x8981;&#x8BFB;&#x53D6;&#x8FD9;&#x4E2A;cache&#x884C;&#xFF0C;&#x7B2C;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x5C31;&#x5FC5;&#x987B;&#x5C06;&#x5B83;&#x7684;cache&#x5185;&#x5BB9;&#x5BC4;&#x9001;&#x7ED9;&#x7B2C;&#x4E8C;&#x4E2A;&#x5904;&#x7406;&#x5668;&#xFF0C;&#x7136;&#x540E;&#x5B83;&#x5C31;&#x80FD;&#x5C06;&#x72B6;&#x6001;&#x6539;&#x4E3A;<strong>&#x5171;&#x4EAB;</strong>&#x3002;&#x5BC4;&#x9001;&#x7ED9;&#x7B2C;&#x4E8C;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x7684;&#x8D44;&#x6599;&#x4E5F;&#x4F1A;&#x88AB;memory&#x63A7;&#x5236;&#x5668;&#x63A5;&#x6536;&#x5E76;&#x5904;&#x7406;&#xFF0C;&#x5176;&#x4F1A;&#x5C06;&#x5185;&#x5BB9;&#x50A8;&#x5B58;&#x5728;memory&#x4E2D;&#x3002;&#x5047;&#x5982;&#x6CA1;&#x6709;&#x8FD9;&#x4E48;&#x505A;&#xFF0C;cache&#x884C;&#x5C31;&#x4E0D;&#x80FD;&#x88AB;&#x6807;&#x4E3A;<strong>&#x5171;&#x4EAB;</strong>&#x3002;&#x82E5;&#x662F;&#x7B2C;&#x4E8C;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x60F3;&#x8981;&#x5199;&#x5165;cache&#x884C;&#xFF0C;&#x7B2C;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x4FBF;&#x4F1A;&#x5BC4;&#x9001;cache&#x884C;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x5E76;&#x5C06;&#x81EA;&#x5DF1;&#x7684;cache&#x884C;&#x6807;&#x4E3A;<strong>&#x65E0;&#x6548;</strong>&#x3002;&#x8FD9;&#x5373;&#x662F;&#x6076;&#x540D;&#x662D;&#x5F70;&#x7684;&#x300C;&#x6240;&#x6709;&#x6743;&#x8BF7;&#x6C42;&#xFF08;Request For Ownership&#xFF0C;RFO&#xFF09;&#x300D;&#x64CD;&#x4F5C;&#x3002;&#x5728;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x5C42;&#x7EA7;&#x7684;cache&#x4E2D;&#x6267;&#x884C;&#x8FD9;&#x4E2A;&#x64CD;&#x4F5C;&#xFF0C;&#x5C31;&#x50CF;&#x662F; I&#x2192;M &#x7684;&#x8F6C;&#x6362;&#x4E00;&#x6837;&#xFF0C;&#x76F8;&#x5F53;&#x6602;&#x8D35;&#x3002;&#x5BF9;&#x76F4;&#x5199;&#x5F0F;cache&#x800C;&#x8A00;&#xFF0C;&#x6211;&#x4EEC;&#x4E5F;&#x5F97;&#x52A0;&#x4E0A;&#x5B83;&#x5C06;&#x65B0;&#x7684;cache&#x884C;&#x5185;&#x5BB9;&#x5199;&#x5165;&#x5230;&#x66F4;&#x9AD8;&#x9636;cache&#x6216;&#x4E3B;memory&#x6240;&#x82B1;&#x8D39;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x8FDB;&#x800C;&#x63D0;&#x9AD8;&#x4E86;&#x6210;&#x672C;&#x3002;</p>
+<p>&#x82E5;&#x662F;&#x4E00;&#x4E2A;cache&#x884C;&#x5904;&#x4E8E;<strong>&#x5171;&#x4EAB;</strong>&#x72B6;&#x6001;&#xFF0C;&#x5E76;&#x4E14;&#x672C;&#x5730;&#x5904;&#x7406;&#x5668;&#x8981;&#x8BFB;&#x53D6;&#x5B83;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x4E0D;&#x5FC5;&#x6539;&#x53D8;&#x72B6;&#x6001;&#xFF0C;&#x8BFB;&#x53D6;&#x8BF7;&#x6C42;&#x80FD;&#x591F;&#x7531;&#x8FD9;&#x4E2A;cache&#x6765;&#x8FBE;&#x6210;&#x3002;&#x82E5;&#x662F;cache&#x884C;&#x8981;&#x5728;&#x672C;&#x5730;&#x5199;&#x5165;&#xFF0C;&#x4E5F;&#x80FD;&#x591F;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;cache&#x884C;&#xFF0C;&#x4F46;&#x72B6;&#x6001;&#x4F1A;&#x88AB;&#x6539;&#x6210;<strong>&#x4FEE;&#x6539;</strong>&#x3002;&#x8FD9;&#x4E5F;&#x9700;&#x8981;&#x4EE4;&#x5176;&#x5B83;&#x5904;&#x7406;&#x5668;&#x7684;&#x6240;&#x6709;&#x53EF;&#x80FD;&#x7684;cache&#x884C;&#x526F;&#x672C;&#x88AB;&#x6807;&#x4E3A;<strong>&#x65E0;&#x6548;</strong>&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5199;&#x5165;&#x64CD;&#x4F5C;&#x5FC5;&#x987B;&#x8981;&#x900F;&#x8FC7;&#x4E00;&#x4E2A; RFO &#x8BAF;&#x606F;&#x53D1;&#x5E03;&#x7ED9;&#x5176;&#x5B83;&#x5904;&#x7406;&#x5668;&#x3002;&#x82E5;&#x662F;cache&#x884C;&#x88AB;&#x7B2C;&#x4E8C;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x8BF7;&#x6C42;&#x8BFB;&#x53D6;&#xFF0C;&#x90A3;&#x4E48;&#x4EC0;&#x4E48;&#x4E5F;&#x4E0D;&#x5FC5;&#x505A;&#x3002;&#x4E3B;memory&#x5305;&#x542B;&#x4E86;&#x5F53;&#x524D;&#x7684;&#x8D44;&#x6599;&#xFF0C;&#x672C;&#x5730;&#x7684;&#x72B6;&#x6001;&#x4E5F;&#x5DF2;&#x7ECF;&#x662F;<strong>&#x5171;&#x4EAB;</strong>&#x4E86;&#x3002;&#x5728;&#x7B2C;&#x4E8C;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x60F3;&#x8981;&#x5199;&#x5165;&#x5230;cache&#x884C;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF08;RFO&#xFF09;&#xFF0C;&#x5C31;&#x76F4;&#x63A5;&#x5C06;cache&#x884C;&#x6807;&#x4E3A;<strong>&#x65E0;&#x6548;</strong>&#x3002;&#x4E0D;&#x9700;&#x8981;&#x603B;&#x7EBF;&#x64CD;&#x4F5C;&#x3002;</p>
+<p><strong>&#x72EC;&#x5360;</strong>&#x72B6;&#x6001;&#x4E0E;<strong>&#x5171;&#x4EAB;</strong>&#x72B6;&#x6001;&#x5927;&#x81F4;&#x76F8;&#x540C;&#xFF0C;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x91CD;&#x5927;&#x7684;&#x4E0D;&#x540C;&#xFF1A;&#x672C;&#x5730;&#x7684;&#x5199;&#x5165;&#x64CD;&#x4F5C;&#x4E0D;&#x5FC5;&#x53D1;&#x5E03;&#x5230;&#x603B;&#x7EBF;&#x4E0A;&#x3002;&#x56E0;&#x4E3A;&#x5DF2;&#x7ECF;&#x77E5;&#x9053;&#x672C;&#x5730;cache&#x662F;&#x552F;&#x4E00;&#x4E00;&#x4E2A;&#x6301;&#x6709;&#x8FD9;&#x4E2A;&#x72EC;&#x6709;&#x7684;cache&#x884C;&#x7684;&#x4E86;&#x3002;&#x8FD9;&#x4F1A;&#x662F;&#x4E00;&#x4E2A;&#x5DE8;&#x5927;&#x7684;&#x4F18;&#x52BF;&#xFF0C;&#x6240;&#x4EE5;&#x5904;&#x7406;&#x5668;&#x4F1A;&#x8BD5;&#x8457;&#x4EE4;&#x5C3D;&#x53EF;&#x80FD;&#x591A;&#x7684;cache&#x884C;&#x7EF4;&#x6301;&#x5728;<strong>&#x72EC;&#x5360;</strong>&#x72B6;&#x6001;&#xFF0C;&#x800C;&#x975E;<strong>&#x5171;&#x4EAB;</strong>&#x3002;&#x540E;&#x8005;&#x662F;&#x5728;&#x8FD9;&#x79CD;&#x65F6;&#x523B;&#xFF0C;&#x65E0;&#x6CD5;&#x53D6;&#x5F97;&#x8FD9;&#x4E2A;&#x8D44;&#x8BAF;&#x7684;&#x9000;&#x800C;&#x6C42;&#x5176;&#x6B21;&#x3002;<strong>&#x72EC;&#x5360;</strong>&#x72B6;&#x6001;&#x4E5F;&#x80FD;&#x591F;&#x5728;&#x5B8C;&#x5168;&#x4E0D;&#x5F15;&#x53D1;&#x529F;&#x80FD;&#x95EE;&#x9898;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x88AB;&#x7701;&#x53BB;&#x3002;&#x552F;&#x4E00;&#x4F1A;&#x53D8;&#x7CDF;&#x7684;&#x53EA;&#x6709;&#x6548;&#x80FD;&#xFF0C;&#x56E0;&#x4E3A; E&#x2192;M &#x8F6C;&#x6362;&#x6BD4; S&#x2192;M &#x8F6C;&#x6362;&#x8981;&#x5FEB;&#x5F97;&#x591A;&#x4E86;&#x3002;</p>
+<p>&#x4ECE;&#x8FD9;&#x4E9B;&#x72B6;&#x6001;&#x8F6C;&#x6362;&#x7684;&#x63CF;&#x8FF0;&#x4E2D;&#xFF0C;&#x5E94;&#x8BE5;&#x5F88;&#x6E05;&#x695A;&#x591A;&#x5904;&#x7406;&#x5668;&#x64CD;&#x4F5C;&#x7279;&#x6709;&#x7684;&#x6210;&#x672C;&#x5728;&#x54EA;&#x4E86;&#x3002;&#x662F;&#x7684;&#xFF0C;&#x586B;&#x5165;cache&#x4ECD;&#x65E7;&#x6602;&#x8D35;&#xFF0C;&#x4F46;&#x73B0;&#x5728;&#x6211;&#x4EEC;&#x4E5F;&#x5FC5;&#x987B;&#x7559;&#x610F; RFO &#x8BAF;&#x606F;&#x3002;&#x6BCF;&#x5F53;&#x5FC5;&#x987B;&#x53D1;&#x9001;&#x8FD9;&#x79CD;&#x8BAF;&#x606F;&#x65F6;&#xFF0C;&#x5DE5;&#x4F5C;&#x5C31;&#x4F1A;&#x53D8;&#x6162;&#x3002;</p>
+<p>&#x6709;&#x4E24;&#x79CD;&#x5FC5;&#x987B;&#x8981; RFO &#x8BAF;&#x606F;&#x7684;&#x60C5;&#x51B5;&#xFF1A;</p>
+<ul>
+<li>&#x4E00;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x4ECE;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x8FC1;&#x79FB;&#x5230;&#x53E6;&#x4E00;&#x4E2A;&#xFF0C;&#x5E76;&#x4E14;&#x6240;&#x6709;cache&#x884C;&#x90FD;&#x5FC5;&#x987B;&#x4E00;&#x8D77;&#x79FB;&#x52A8;&#x5230;&#x65B0;&#x7684;&#x5904;&#x7406;&#x5668;&#x4E0A;&#x3002;</li>
+<li>&#x4E00;&#x4E2A;cache&#x884C;&#x771F;&#x7684;&#x88AB;&#x4E24;&#x4E2A;&#x4E0D;&#x540C;&#x7684;&#x5904;&#x7406;&#x5668;&#x6240;&#x9700;&#x8981;&#x3002;<sup><a href="#fn_21" id="reffn_21">21</a></sup></li>
+</ul>
+<p>&#x5728;&#x591A;&#x6267;&#x884C;&#x7EEA;&#x6216;&#x591A;&#x884C;&#x7A0B;&#x7684;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;&#x603B;&#x662F;&#x6709;&#x4E00;&#x4E9B;&#x540C;&#x6B65;&#x7684;&#x9700;&#x6C42;&#xFF1B;&#x8FD9;&#x79CD;&#x540C;&#x6B65;&#x662F;&#x4F7F;&#x7528;memory&#x5B9E;&#x4F5C;&#x7684;&#x3002;&#x6240;&#x4EE5;&#x6709;&#x4E9B;&#x6709;&#x6839;&#x636E;&#x7684; RFO &#x8BAF;&#x606F;&#x3002;&#x5B83;&#x4EEC;&#x4ECD;&#x65E7;&#x5F97;&#x5C3D;&#x53EF;&#x80FD;&#x5730;&#x964D;&#x4F4E;&#x9891;&#x7387;&#x3002;&#x4E0D;&#x8FC7;&#xFF0C;&#x8FD8;&#x6709;&#x5176;&#x4ED6; RFO &#x8BAF;&#x606F;&#x7684;&#x6765;&#x6E90;&#x3002;&#x6211;&#x4EEC;&#x5C06;&#x4F1A;&#x5728;&#x7B2C;&#x516D;&#x8282;&#x89E3;&#x91CA;&#x8FD9;&#x4E9B;&#x60C5;&#x51B5;&#x3002;cache&#x4E00;&#x81F4;&#x6027;&#x534F;&#x8BAE;&#x7684;&#x8BAF;&#x606F;&#x5FC5;&#x987B;&#x88AB;&#x5206;&#x53D1;&#x7ED9;&#x7CFB;&#x7EDF;&#x4E2D;&#x7684;&#x5904;&#x7406;&#x5668;&#x3002;MESI &#x8F6C;&#x6362;&#x76F4;&#x5230;&#x786E;&#x5B9A;&#x7CFB;&#x7EDF;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x5904;&#x7406;&#x5668;&#x90FD;&#x6709;&#x673A;&#x4F1A;&#x56DE;&#x8986;&#x8BAF;&#x606F;&#x4E4B;&#x524D;&#x90FD;&#x4E0D;&#x4F1A;&#x53D1;&#x751F;&#x3002;&#x8FD9;&#x8868;&#x793A;&#x4E00;&#x4E2A;&#x56DE;&#x8986;&#x80FD;&#x82B1;&#x4E0A;&#x7684;&#x6700;&#x957F;&#x53EF;&#x80FD;&#x65F6;&#x95F4;&#x51B3;&#x5B9A;&#x4E86;&#x4E00;&#x81F4;&#x6027;&#x534F;&#x8BAE;&#x7684;&#x901F;&#x5EA6;&#x3002;<sup><a href="#fn_22" id="reffn_22">22</a></sup>&#x53EF;&#x80FD;&#x4F1A;&#x6709;&#x603B;&#x7EBF;&#x4E0A;&#x7684;&#x51B2;&#x7A81;&#x3001;NUMA &#x7CFB;&#x7EDF;&#x7684;&#x7B49;&#x5F85;&#x65F6;&#x95F4;&#x4F1A;&#x5F88;&#x957F;&#x3001;&#x800C;&#x4E14;&#x7A81;&#x53D1;&#x7684;&#x6D41;&#x91CF;&#x5F53;&#x7136;&#x4E5F;&#x4F1A;&#x8BA9;&#x4E8B;&#x60C5;&#x53D8;&#x6162;&#x3002;&#x8FD9;&#x5168;&#x90FD;&#x662F;&#x4E13;&#x6CE8;&#x5728;&#x907F;&#x514D;&#x4E0D;&#x5FC5;&#x8981;&#x6D41;&#x91CF;&#x7684;&#x597D;&#x7406;&#x7531;&#x3002;</p>
+<p>&#x8FD8;&#x6709;&#x4E00;&#x4E2A;&#x4E0E;&#x62E5;&#x6709;&#x591A;&#x4E8E;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x6709;&#x5173;&#x7684;&#x95EE;&#x9898;&#x3002;&#x8FD9;&#x4E2A;&#x5F71;&#x54CD;&#x662F;&#x4E0E;&#x673A;&#x5668;&#x9AD8;&#x5EA6;&#x76F8;&#x5173;&#x7684;&#xFF0C;&#x4F46;&#x539F;&#x7406;&#x4E0A;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x603B;&#x662F;&#x5B58;&#x5728;&#xFF1A;FSB &#x662F;&#x4E00;&#x4E2A;&#x5171;&#x4EAB;&#x7684;&#x8D44;&#x6E90;&#x3002;&#x5728;&#x5927;&#x591A;&#x6570;&#x673A;&#x5668;&#x4E0A;&#xFF0C;&#x6240;&#x6709;&#x5904;&#x7406;&#x5668;&#x4F1A;&#x900F;&#x8FC7;&#x5355;&#x4E00;&#x4E00;&#x6761;&#x603B;&#x7EBF;&#x8FDE;&#x7ED3;&#x5230;memory&#x63A7;&#x5236;&#x5668;&#xFF08;&#x89C1;&#x56FE; 2.1&#xFF09;&#x3002;&#x5047;&#x5982;&#x5355;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x80FD;&#x591F;&#x5360;&#x6EE1;&#x603B;&#x7EBF;&#xFF08;&#x901A;&#x5E38;&#x662F;&#x8FD9;&#x6837;&#xFF09;&#xFF0C;&#x90A3;&#x4E48;&#x5171;&#x4EAB;&#x76F8;&#x540C;&#x603B;&#x7EBF;&#x7684;&#x4E8C;&#x6216;&#x56DB;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x751A;&#x81F3;&#x4F1A;&#x66F4;&#x52A0;&#x5730;&#x9650;&#x5236;&#x6BCF;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x7684;&#x53EF;&#x7528;&#x9891;&#x5BBD;&#x3002;</p>
+<p>&#x5373;&#x4F7F;&#x6BCF;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x90FD;&#x5982;&#x56FE; 2.2 &#x4E00;&#x6837;&#xFF0C;&#x6709;&#x5B83;&#x81EA;&#x5DF1;&#x7684;&#x3001;&#x8FDE;&#x7ED3;&#x5230;memory&#x63A7;&#x5236;&#x5668;&#x7684;&#x603B;&#x7EBF;&#xFF0C;&#x4F46;&#x4ECD;&#x65E7;&#x6709;&#x8FDE;&#x7ED3;&#x5230;memory&#x6A21;&#x7EC4;&#x7684;&#x603B;&#x7EBF;&#x3002;&#x901A;&#x5E38;&#x8FD9;&#x662F;&#x552F;&#x4E00;&#x4E00;&#x6761;&#x603B;&#x7EBF;&#xFF0C;&#x800C; &#x2013;&#x2013; &#x5373;&#x4F7F;&#x5728;&#x56FE; 2.2 &#x7684;&#x6269;&#x5145;&#x6A21;&#x578B;&#x4E2D; &#x2013;&#x2013; &#x540C;&#x65F6;&#x5B58;&#x53D6;&#x76F8;&#x540C;&#x7684;memory&#x6A21;&#x7EC4;&#x5C06;&#x4F1A;&#x9650;&#x5236;&#x9891;&#x5BBD;&#x3002;</p>
+<p>&#x6BCF;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x90FD;&#x80FD;&#x62E5;&#x6709;&#x672C;&#x5730;memory&#x7684; AMD &#x6A21;&#x578B;&#x4EA6;&#x662F;&#x5982;&#x6B64;&#x3002;&#x6240;&#x6709;&#x5904;&#x7406;&#x5668;&#x786E;&#x5B9E;&#x80FD;&#x5FEB;&#x901F;&#x5730;&#x5E76;&#x884C;&#x5B58;&#x53D6;&#x5B83;&#x4EEC;&#x7684;&#x672C;&#x5730;memory&#xFF0C;&#x5C24;&#x5176;&#x5728;&#x4F7F;&#x7528;&#x6574;&#x5408;&#x5F0F;memory&#x63A7;&#x5236;&#x5668;&#x7684;&#x60C5;&#x51B5;&#x3002;&#x4F46;&#x591A;&#x6267;&#x884C;&#x7EEA;&#x4E0E;&#x591A;&#x884C;&#x7A0B;&#x7A0B;&#x5E8F; &#x2013;&#x2013; &#x81F3;&#x5C11;&#x5076;&#x5C14; &#x2013;&#x2013; &#x5FC5;&#x987B;&#x5B58;&#x53D6;&#x76F8;&#x540C;&#x7684;memory&#x533A;&#x57DF;&#x4EE5;&#x8FDB;&#x884C;&#x540C;&#x6B65;&#x3002;</p>
+<p>&#x5E76;&#x884C;&#x662F;&#x53D7;&#x53EF;&#x7528;&#x4E8E;&#x5FC5;&#x8981;&#x7684;&#x540C;&#x6B65;&#x5B9E;&#x4F5C;&#x7684;&#x6709;&#x9650;&#x9891;&#x5BBD;&#x6240;&#x4E25;&#x91CD;&#x5730;&#x9650;&#x5236;&#x7684;&#x3002;&#x7A0B;&#x5E8F;&#x9700;&#x8981;&#x88AB;&#x5C0F;&#x5FC3;&#x5730;&#x8BBE;&#x8BA1;&#xFF0C;&#x4EE5;&#x5C06;&#x4E0D;&#x540C;&#x5904;&#x7406;&#x5668;&#x6838;&#x5BF9;&#x76F8;&#x540C;memory&#x4F4D;&#x7F6E;&#x7684;&#x5B58;&#x53D6;&#x964D;&#x5230;&#x6700;&#x5C0F;&#x3002;&#x63A5;&#x4E0B;&#x6765;&#x7684;&#x91CF;&#x6D4B;&#x5C06;&#x4F1A;&#x663E;&#x793A;&#x8FD9;&#x70B9;&#x3001;&#x4EE5;&#x53CA;&#x5176;&#x5B83;&#x4E0E;&#x591A;&#x6267;&#x884C;&#x7EEA;&#x7A0B;&#x5E8F;&#x6709;&#x5173;&#x7684;cache&#x5F71;&#x54CD;&#x3002;</p>
+<h2 id="&#x591A;&#x6267;&#x884C;&#x7EEA;&#x5B58;&#x53D6;">&#x591A;&#x6267;&#x884C;&#x7EEA;&#x5B58;&#x53D6;</h2>
+<p>&#x4E3A;&#x4E86;&#x786E;&#x4FDD;&#x5927;&#x5BB6;&#x7406;&#x89E3;&#x5728;&#x4E0D;&#x540C;&#x5904;&#x7406;&#x5668;&#x4E0A;&#x540C;&#x65F6;&#x4F7F;&#x7528;&#x76F8;&#x540C;cache&#x884C;&#x6240;&#x5F15;&#x5165;&#x7684;&#x95EE;&#x9898;&#x7684;&#x4E25;&#x91CD;&#x6027;&#xFF0C;&#x6211;&#x4EEC;&#x5C06;&#x4F1A;&#x5728;&#x8FD9;&#x91CC;&#x591A;&#x770B;&#x5230;&#x4E00;&#x4E9B;&#x9488;&#x5BF9;&#x6211;&#x4EEC;&#x5148;&#x524D;&#x7528;&#x8FC7;&#x7684;&#x76F8;&#x540C;&#x7A0B;&#x5E8F;&#x7684;&#x6548;&#x80FD;&#x56FE;&#x8868;&#x3002;&#x4E0D;&#x8FC7;&#xFF0C;&#x8FD9;&#x6B21;&#x4F1A;&#x540C;&#x65F6;&#x6267;&#x884C;&#x591A;&#x4E8E;&#x4E00;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x3002;&#x6240;&#x8981;&#x91CF;&#x6D4B;&#x7684;&#x662F;&#x6700;&#x5FEB;&#x7684;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x3002;&#x8FD9;&#x610F;&#x5473;&#x8457;&#x5B8C;&#x6210;&#x6240;&#x6709;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x5B8C;&#x6574;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x8FD8;&#x4F1A;&#x66F4;&#x957F;&#x3002;&#x4F7F;&#x7528;&#x7684;&#x673A;&#x5668;&#x6709;&#x56DB;&#x4E2A;&#x5904;&#x7406;&#x5668;&#xFF1B;&#x6D4B;&#x8BD5;&#x4F7F;&#x7528;&#x81F3;&#x591A;&#x56DB;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x3002;&#x6240;&#x6709;&#x5904;&#x7406;&#x5668;&#x5171;&#x4EAB;&#x8FDE;&#x7ED3;&#x5230;memory&#x63A7;&#x5236;&#x5668;&#x7684;&#x603B;&#x7EBF;&#xFF0C;&#x800C;&#x4E14;&#x4EC5;&#x6709;&#x4E00;&#x6761;&#x8FDE;&#x7ED3;&#x5230;memory&#x6A21;&#x7EC4;&#x7684;&#x603B;&#x7EBF;&#x3002;</p>
+<figure>
+  <img src="../../assets/figure-3.19.png" alt="&#x56FE; 3.19&#xFF1A;&#x5FAA;&#x5E8F;&#x8BFB;&#x53D6;&#xFF0C;&#x591A;&#x6761;&#x6267;&#x884C;&#x7EEA;">
+  <figcaption>&#x56FE; 3.19&#xFF1A;&#x5FAA;&#x5E8F;&#x8BFB;&#x53D6;&#xFF0C;&#x591A;&#x6761;&#x6267;&#x884C;&#x7EEA;</figcaption>
+</figure>
+
+<p>&#x56FE; 3.19 &#x663E;&#x793A;&#x4E86;&#x5FAA;&#x5E8F;&#x552F;&#x8BFB;&#x5B58;&#x53D6; 128 &#x4F4D;&#x5143;&#x7EC4;&#x9879;&#x76EE;&#x7684;&#x6548;&#x80FD;&#xFF08;&#x5728; 64 &#x4F4D;&#x5143;&#x673A;&#x5668;&#x4E0A;&#xFF0C;<code>NPAD</code>=15&#xFF09;&#x3002;&#x5BF9;&#x4E8E;&#x5355;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x66F2;&#x7EBF;&#xFF0C;&#x6211;&#x4EEC;&#x80FD;&#x9884;&#x671F;&#x662F;&#x6761;&#x4E0E;&#x56FE; 3.11 &#x76F8;&#x4F3C;&#x7684;&#x66F2;&#x7EBF;&#x3002;&#x91CF;&#x6D4B;&#x4F7F;&#x7528;&#x4E86;&#x4E00;&#x53F0;&#x4E0D;&#x540C;&#x7684;&#x673A;&#x5668;&#xFF0C;&#x6240;&#x4EE5;&#x5B9E;&#x9645;&#x7684;&#x6570;&#x5B57;&#x4F1A;&#x6709;&#x6240;&#x4E0D;&#x540C;&#x3002;</p>
+<p>&#x8FD9;&#x5F20;&#x56FE;&#x4E2D;&#x91CD;&#x8981;&#x7684;&#x90E8;&#x5206;&#x5F53;&#x7136;&#x662F;&#x6267;&#x884C;&#x591A;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x65F6;&#x7684;&#x884C;&#x4E3A;&#x3002;&#x6CE8;&#x610F;&#x5230;&#x5728;&#x8D70;&#x8BBF;&#x94FE;&#x7ED3;&#x4E32;&#x5217;&#x65F6;&#xFF0C;&#x6CA1;&#x6709;memory&#x4F1A;&#x88AB;&#x4FEE;&#x6539;&#xFF0C;&#x4EA6;&#x65E0;&#x8BA9;&#x6267;&#x884C;&#x7EEA;&#x4FDD;&#x6301;&#x540C;&#x6B65;&#x7684;&#x4F01;&#x56FE;&#x3002;&#x5C3D;&#x7BA1;&#x4E0D;&#x5FC5;&#x6709; RFO &#x8BAF;&#x606F;&#x3001;&#x800C;&#x4E14;&#x6240;&#x6709;&#x7684;cache&#x884C;&#x90FD;&#x80FD;&#x88AB;&#x5171;&#x4EAB;&#xFF0C;&#x4F46;&#x6211;&#x4EEC;&#x770B;&#x5230;&#x5F53;&#x4F7F;&#x7528;&#x4E24;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x65F6;&#xFF0C;&#x6548;&#x80FD;&#x51CF;&#x4F4E;&#x4E86;&#x9AD8;&#x8FBE; 18%&#xFF0C;&#x800C;&#x4F7F;&#x7528;&#x56DB;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x65F6;&#x5219;&#x9AD8;&#x8FBE; 34%&#x3002;&#x7531;&#x4E8E;&#x6CA1;&#x6709;&#x5FC5;&#x987B;&#x5728;&#x5904;&#x7406;&#x5668;&#x4E4B;&#x95F4;&#x4F20;&#x8F93;&#x7684;cache&#x884C;&#xFF0C;&#x56E0;&#x6B64;&#x53D8;&#x6162;&#x4EC5;&#x4EC5;&#x662F;&#x7531;&#x4E24;&#x4E2A;&#x74F6;&#x9888;&#x4E2D;&#x7684;&#x4E00;&#x6216;&#x4E8C;&#x8005;&#x6240;&#x5F15;&#x8D77;&#x7684;&#xFF1A;&#x4ECE;&#x5904;&#x7406;&#x5668;&#x5230;memory&#x63A7;&#x5236;&#x7684;&#x5171;&#x4EAB;&#x603B;&#x7EBF;&#x3001;&#x4EE5;&#x53CA;&#x4ECE;memory&#x63A7;&#x5236;&#x5668;&#x5230;memory&#x6A21;&#x7EC4;&#x7684;&#x603B;&#x7EBF;&#x3002;&#x4E00;&#x65E6;&#x5DE5;&#x4F5C;&#x96C6;&#x5927;&#x5C0F;&#x5927;&#x4E8E;&#x8FD9;&#x53F0;&#x673A;&#x5668;&#x7684; L3 cache&#xFF0C;&#x56FE;&#x4E0A;&#x4E09;&#x79CD;&#x6570;&#x91CF;&#x7684;&#x6267;&#x884C;&#x7EEA;&#x90FD;&#x4F1A;&#x9884;&#x53D6;&#x65B0;&#x7684;&#x4E32;&#x5217;&#x5143;&#x7D20;&#x3002;&#x5373;&#x4FBF;&#x53EA;&#x6709;&#x4E24;&#x6761;&#x6267;&#x884C;&#x7EEA;&#xFF0C;&#x53EF;&#x7528;&#x9891;&#x5BBD;&#x4E5F;&#x4E0D;&#x8DB3;&#x4EE5;&#x7EBF;&#x6027;&#x5EF6;&#x5C55;&#xFF08;scale&#xFF09;&#xFF08;&#x5373;&#xFF0C;&#x6CA1;&#x6709;&#x6267;&#x884C;&#x591A;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x5E26;&#x6765;&#x7684;&#x635F;&#x5931;&#xFF09;&#x3002;</p>
+<figure>
+  <img src="../../assets/figure-3.20.png" alt="&#x56FE; 3.20&#xFF1A;&#x5FAA;&#x5E8F; Increase&#xFF0C;&#x591A;&#x6761;&#x6267;&#x884C;&#x7EEA;">
+  <figcaption>&#x56FE; 3.20&#xFF1A;&#x5FAA;&#x5E8F; Increase&#xFF0C;&#x591A;&#x6761;&#x6267;&#x884C;&#x7EEA;</figcaption>
+</figure>
+
+<p>&#x5F53;&#x6211;&#x4EEC;&#x4FEE;&#x6539;memory&#x65F6;&#xFF0C;&#x60C5;&#x51B5;&#x53D8;&#x5F97;&#x66F4;&#x53EF;&#x6015;&#x4E86;&#x3002;&#x56FE; 3.20 &#x663E;&#x793A;&#x4E86;&#x5FAA;&#x5E8F; Increase &#x6D4B;&#x8BD5;&#x7684;&#x7ED3;&#x679C;&#x3002;&#x8FD9;&#x4E2A;&#x56FE;&#x8868;&#x7684; Y &#x8F74;&#x4F7F;&#x7528;&#x4E86;&#x5BF9;&#x6570;&#x5C3A;&#x5EA6;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x522B;&#x88AB;&#x770B;&#x4F3C;&#x5F88;&#x5C0F;&#x7684;&#x5DEE;&#x5F02;&#x7ED9;&#x9A97;&#x4E86;&#x3002;&#x6211;&#x4EEC;&#x5728;&#x6267;&#x884C;&#x4E24;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x65F6;&#x5019;&#x4ECD;&#x6709;&#x5927;&#x7EA6; 18% &#x7684;&#x635F;&#x5931;&#xFF0C;&#x800C;&#x6267;&#x884C;&#x56DB;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x5219;&#x662F;&#x60CA;&#x4EBA;&#x7684; 93% &#x635F;&#x5931;&#x3002;&#x8FD9;&#x8868;&#x793A;&#xFF0C;&#x5728;&#x4F7F;&#x7528;&#x56DB;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x65F6;&#xFF0C;&#x9884;&#x53D6;&#x6D41;&#x91CF;&#x52A0;&#x4E0A;&#x56DE;&#x5199;&#x6D41;&#x91CF;&#x5C31;&#x628A;&#x603B;&#x7EBF;&#x5360;&#x5F97;&#x975E;&#x5E38;&#x6EE1;&#x4E86;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x5BF9;&#x6570;&#x5C3A;&#x5EA6;&#x6765;&#x663E;&#x793A; L1d &#x8303;&#x56F4;&#x7684;&#x7ED3;&#x679C;&#x3002;&#x80FD;&#x591F;&#x770B;&#x5230;&#x7684;&#x662F;&#xFF0C;&#x4E00;&#x65E6;&#x6267;&#x884C;&#x4E86;&#x591A;&#x4E8E;&#x4E00;&#x6761;&#x6267;&#x884C;&#x7EEA;&#xFF0C;L1d &#x57FA;&#x672C;&#x4E0A;&#x5C31;&#x6CA1;&#x4EC0;&#x4E48;&#x6548;&#x679C;&#x4E86;&#x3002;&#x53EA;&#x6709;&#x5728; L1d &#x4E0D;&#x8DB3;&#x4EE5;&#x5BB9;&#x7EB3;&#x5DE5;&#x4F5C;&#x96C6;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5355;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x5B58;&#x53D6;&#x65F6;&#x95F4;&#x624D;&#x4F1A;&#x8D85;&#x8FC7; 20 &#x4E2A;&#x5468;&#x671F;&#x3002;&#x5F53;&#x6267;&#x884C;&#x4E86;&#x591A;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x65F6;&#xFF0C;&#x5B58;&#x53D6;&#x65F6;&#x95F4;&#x5374;&#x7ACB;&#x5373;&#x5C31;&#x8FBE;&#x5230;&#x4E86; &#x2013;&#x2013; &#x5373;&#x4FBF;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x6700;&#x5C0F;&#x7684;&#x5DE5;&#x4F5C;&#x96C6;&#x5927;&#x5C0F;&#x3002;</p>
+<p>&#x8FD9;&#x91CC;&#x6CA1;&#x6709;&#x663E;&#x793A;&#x51FA;&#x95EE;&#x9898;&#x7684;&#x4E00;&#x4E2A;&#x9762;&#x5411;&#x3002;&#x8FD9;&#x4E2A;&#x7279;&#x5B9A;&#x7684;&#x6D4B;&#x8BD5;&#x7A0B;&#x5E8F;&#x662F;&#x96BE;&#x4EE5;&#x91CF;&#x6D4B;&#x7684;&#x3002;&#x5373;&#x4F7F;&#x6D4B;&#x8BD5;&#x4FEE;&#x6539;&#x4E86;memory&#x3001;&#x800C;&#x6211;&#x4EEC;&#x56E0;&#x6B64;&#x9884;&#x671F;&#x5FC5;&#x5B9A;&#x4F1A;&#x6709; RFO &#x8BAF;&#x606F;&#xFF0C;&#x4F46;&#x5F53;&#x4F7F;&#x7528;&#x4E86;&#x591A;&#x4E8E;&#x4E00;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x5E76;&#x6CA1;&#x6709;&#x5728; L2 &#x8303;&#x56F4;&#x5185;&#x770B;&#x5230;&#x66F4;&#x9AD8;&#x7684;&#x6210;&#x672C;&#x3002;&#x7A0B;&#x5E8F;&#x5FC5;&#x987B;&#x8981;&#x4F7F;&#x7528;&#x5927;&#x91CF;&#x7684;memory&#xFF0C;&#x5E76;&#x4E14;&#x6240;&#x6709;&#x6267;&#x884C;&#x7EEA;&#x5FC5;&#x987B;&#x8981;&#x5E73;&#x884C;&#x5730;&#x5B58;&#x53D6;&#x76F8;&#x540C;&#x7684;memory&#x3002;&#x6CA1;&#x6709;&#x5927;&#x91CF;&#x7684;&#x540C;&#x6B65; &#x2013;&#x2013; &#x5176;&#x4F1A;&#x5360;&#x636E;&#x5927;&#x591A;&#x7684;&#x6267;&#x884C;&#x65F6;&#x95F4; &#x2013;&#x2013; &#x8FD9;&#x662F;&#x5F88;&#x96BE;&#x5B9E;&#x73B0;&#x7684;&#x3002;</p>
+<figure>
+  <img src="../../assets/figure-3.21.png" alt="&#x56FE; 3.21&#xFF1A;&#x968F;&#x673A; Addnextlast&#xFF0C;&#x591A;&#x6761;&#x6267;&#x884C;&#x7EEA;">
+  <figcaption>&#x56FE; 3.21&#xFF1A;&#x968F;&#x673A; Addnextlast&#xFF0C;&#x591A;&#x6761;&#x6267;&#x884C;&#x7EEA;</figcaption>
+</figure>
+
+<p>&#x6700;&#x540E;&#x5728;&#x56FE; 3.21&#xFF0C;&#x6211;&#x4EEC;&#x6709; Addnextlast &#x6D4B;&#x8BD5;&#x4EE5;&#x968F;&#x673A;&#x7684;&#x65B9;&#x5F0F;&#x5B58;&#x53D6;memory&#x7684;&#x6570;&#x636E;&#x3002;&#x63D0;&#x4F9B;&#x8FD9;&#x5F20;&#x56FE;&#x4E3B;&#x8981;&#x662F;&#x4E3A;&#x4E86;&#x663E;&#x793A;&#x51FA;&#x8FD9;&#x4E9B;&#x9AD8;&#x5F97;&#x5413;&#x4EBA;&#x7684;&#x6570;&#x5B57;&#x3002;&#x73B0;&#x5728;&#x5728;&#x6781;&#x7AEF;&#x7684;&#x72B6;&#x51B5;&#x4E0B;&#xFF0C;&#x5904;&#x7406;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x7684;&#x4E32;&#x5217;&#x5143;&#x7D20;&#x8981;&#x82B1;&#x4E0A;&#x5927;&#x7EA6; 1,500 &#x4E2A;&#x5468;&#x671F;&#x3002;&#x4F7F;&#x7528;&#x66F4;&#x591A;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x60C5;&#x51B5;&#x8FD8;&#x8981;&#x66F4;&#x52A0;&#x4E25;&#x91CD;&#x3002;&#x6211;&#x4EEC;&#x80FD;&#x4F7F;&#x7528;&#x4E00;&#x5F20;&#x8868;&#x683C;&#x6765;&#x603B;&#x7ED3;&#x591A;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x6548;&#x7387;&#x3002;</p>
+<figure>
+  <table>
+    <tr>
+      <th>#&#x6267;&#x884C;&#x7EEA;</th>
+      <th>&#x5FAA;&#x5E8F;&#x8BFB;&#x53D6;</th>
+      <th>&#x5FAA;&#x5E8F;&#x9012;&#x589E;</th>
+      <th>&#x968F;&#x673A;&#x589E;&#x52A0;</th>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1.69</td>
+      <td>1.69</td>
+      <td>1.54</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>2.98</td>
+      <td>2.07</td>
+      <td>1.65</td>
+    </tr>
+  </table>
+  <figcaption>&#x8868; 3.3&#xFF1A;&#x591A;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x6548;&#x7387;</figcaption>
+</figure>
+
+<p>&#x8868;&#x683C;&#x663E;&#x793A;&#x4E86;&#x5728;&#x56FE; 3.19&#x3001;3.20&#x3001;&#x4E0E; 3.21 &#x4E2D;&#xFF0C;&#x591A;&#x6267;&#x884C;&#x7EEA;&#x4EE5;&#x6700;&#x5927;&#x5DE5;&#x4F5C;&#x96C6;&#x5927;&#x5C0F;&#x6267;&#x884C;&#x7684;&#x6548;&#x7387;&#x3002;&#x6570;&#x636E;&#x8868;&#x793A;&#x5728;&#x4F7F;&#x7528;&#x4E8C;&#x6216;&#x56DB;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x5904;&#x7406;&#x6700;&#x5927;&#x7684;&#x5DE5;&#x4F5C;&#x96C6;&#x5927;&#x5C0F;&#x65F6;&#xFF0C;&#x6D4B;&#x8BD5;&#x7A0B;&#x5E8F;&#x53EF;&#x80FD;&#x8FBE;&#x5230;&#x7684;&#x6700;&#x4F73;&#x52A0;&#x901F;&#x3002;&#x4EE5;&#x4E24;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x800C;&#x8A00;&#xFF0C;&#x52A0;&#x901F;&#x7684;&#x7406;&#x8BBA;&#x6781;&#x9650;&#x4E3A; 2&#xFF0C;&#x5BF9;&#x4E8E;&#x56DB;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x800C;&#x8A00;&#x4E3A; 4&#x3002;&#x4E24;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x6570;&#x636E;&#x5E76;&#x6CA1;&#x6709;&#x90A3;&#x4E48;&#x7CDF;&#x3002;&#x4F46;&#x5BF9;&#x4E8E;&#x56DB;&#x6761;&#x6267;&#x884C;&#x7EEA;&#xFF0C;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x7684;&#x6570;&#x636E;&#x663E;&#x793A;&#x4E86;&#xFF0C;&#x51E0;&#x4E4E;&#x4E0D;&#x503C;&#x5F97;&#x6269;&#x5C55;&#x5230;&#x8D85;&#x8FC7;&#x4E24;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x3002;&#x989D;&#x5916;&#x7684;&#x83B7;&#x76CA;&#x662F;&#x975E;&#x5E38;&#x5C0F;&#x7684;&#x3002;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x4EE5;&#x7565;&#x4E3A;&#x4E0D;&#x540C;&#x7684;&#x65B9;&#x5F0F;&#x8868;&#x793A;&#x56FE; 3.21 &#x7684;&#x8D44;&#x6599;&#xFF0C;&#x6211;&#x4EEC;&#x4FBF;&#x80FD;&#x66F4;&#x8F7B;&#x6613;&#x5730;&#x770B;&#x51FA;&#x8FD9;&#x70B9;&#x3002;</p>
+<figure>
+  <img src="../../assets/figure-3.22.png" alt="&#x56FE; 3.22&#xFF1A;&#x7ECF;&#x7531;&#x5E73;&#x884C;&#x5316;&#x7684;&#x52A0;&#x901F;">
+  <figcaption>&#x56FE; 3.22&#xFF1A;&#x7ECF;&#x7531;&#x5E73;&#x884C;&#x5316;&#x7684;&#x52A0;&#x901F;</figcaption>
+</figure>
+
+<p>&#x56FE; 3.22 &#x7684;&#x66F2;&#x7EBF;&#x663E;&#x793A;&#x4E86;&#x52A0;&#x901F;&#x56E0;&#x5B50; &#x2013;&#x2013; &#x4E5F;&#x5C31;&#x662F;&#x76F8;&#x6BD4;&#x4E8E;&#x4EE5;&#x5355;&#x4E00;&#x6267;&#x884C;&#x7EEA;&#x6267;&#x884C;&#x7684;&#x7A0B;&#x5E8F;&#x7684;&#x76F8;&#x5BF9;&#x6548;&#x80FD;&#x3002;&#x6211;&#x4EEC;&#x5F97;&#x5FFD;&#x7565;&#x6700;&#x5C0F;&#x5927;&#x5C0F;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x56E0;&#x4E3A;&#x91CF;&#x6D4B;&#x7ED3;&#x679C;&#x4E0D;&#x591F;&#x7CBE;&#x786E;&#x3002;&#x4EE5; L2 &#x4E0E; L3 cache&#x7684;&#x8303;&#x56F4;&#x800C;&#x8A00;&#xFF0C;&#x6211;&#x4EEC;&#x80FD;&#x591F;&#x770B;&#x5230;&#x6211;&#x4EEC;&#x786E;&#x5B9E;&#x8FBE;&#x5230;&#x4E86;&#x51E0;&#x4E4E;&#x662F;&#x7EBF;&#x6027;&#x7684;&#x52A0;&#x901F;&#x3002;&#x6211;&#x4EEC;&#x5206;&#x522B;&#x8FBE;&#x5230;&#x4E86;&#x5DEE;&#x4E0D;&#x591A; 2 &#x4E0E; 4 &#x500D;&#x901F;&#x3002;&#x4F46;&#x4E00;&#x65E6; L3 cache&#x4E0D;&#x8DB3;&#x4EE5;&#x5BB9;&#x7EB3;&#x5DE5;&#x4F5C;&#x96C6;&#xFF0C;&#x6570;&#x5B57;&#x5C31;&#x5F80;&#x4E0B;&#x6389;&#x4E86;&#x3002;&#x4E24;&#x6761;&#x4E0E;&#x56DB;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x52A0;&#x901F;&#x56E0;&#x5B50;&#x90FD;&#x6389;&#x5230;&#x4E00;&#x6837;&#x7684;&#x503C;&#xFF08;&#x89C1;&#x8868; 3.3 &#x7684;&#x7B2C;&#x56DB;&#x884C;&#xFF09;&#x3002;&#x8FD9;&#x662F;&#x96BE;&#x4EE5;&#x627E;&#x5230;&#x4E3B;&#x673A;&#x677F;&#x6709;&#x8457;&#x8D85;&#x8FC7;&#x56DB;&#x4E2A;&#x5168;&#x90FD;&#x4F7F;&#x7528;&#x540C;&#x4E2A;memory&#x63A7;&#x5236;&#x5668;&#x7684; CPU &#x63D2;&#x69FD;&#x7684;&#x5176;&#x4E2D;&#x4E00;&#x4E2A;&#x7406;&#x7531;&#x3002;&#x6709;&#x8457;&#x66F4;&#x591A;&#x5904;&#x7406;&#x5668;&#x7684;&#x673A;&#x5668;&#x5FC5;&#x987B;&#x8981;&#x4EE5;&#x4E0D;&#x540C;&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x505A;&#xFF08;&#x89C1;&#x7B2C;&#x4E94;&#x8282;&#xFF09;&#x3002;</p>
+<p>&#x8FD9;&#x4E9B;&#x6570;&#x5B57;&#x5E76;&#x4E0D;&#x666E;&#x904D;&#x3002;&#x5728;&#x67D0;&#x4E9B;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x751A;&#x81F3;&#x8FDE;&#x80FD;&#x585E;&#x8FDB;&#x6700;&#x540E;&#x4E00;&#x9636;cache&#x7684;&#x5DE5;&#x4F5C;&#x96C6;&#x90FD;&#x65E0;&#x6CD5;&#x505A;&#x5230;&#x7EBF;&#x6027;&#x52A0;&#x901F;&#x3002;&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;&#x8FD9;&#x624D;&#x662F;&#x5E38;&#x6001;&#xFF0C;&#x56E0;&#x4E3A;&#x6267;&#x884C;&#x7EEA;&#x901A;&#x5E38;&#x5E76;&#x4E0D;&#x82E5;&#x8FD9;&#x4E2A;&#x6D4B;&#x8BD5;&#x7A0B;&#x5E8F;&#x7684;&#x4F8B;&#x5B50;&#x4E00;&#x822C;&#x89E3;&#x8026;&#xFF08;decoupled&#xFF09;&#x3002;&#x53E6;&#x4E00;&#x65B9;&#x9762;&#xFF0C;&#x662F;&#x53EF;&#x80FD;&#x8FD0;&#x4F5C;&#x5728;&#x5927;&#x5DE5;&#x4F5C;&#x96C6;&#x4E0A;&#xFF0C;&#x800C;&#x4ECD;&#x65E7;&#x62E5;&#x6709;&#x591A;&#x4E8E;&#x4E24;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x4F18;&#x52BF;&#x7684;&#x3002;&#x4E0D;&#x8FC7;&#xFF0C;&#x505A;&#x5230;&#x8FD9;&#x70B9;&#x9700;&#x8981;&#x4E00;&#x4E9B;&#x601D;&#x8003;&#x3002;&#x6211;&#x4EEC;&#x4F1A;&#x5728;&#x7B2C;&#x516D;&#x8282;&#x8BA8;&#x8BBA;&#x4E00;&#x4E9B;&#x65B9;&#x6CD5;&#x3002;</p>
+<h2 id="&#x7279;&#x4F8B;&#xFF1A;hyper-threading">&#x7279;&#x4F8B;&#xFF1A;Hyper-Threading</h2>
+<p>Hyper-Threading (&#x7B80;&#x79F0; HT&#xFF0C;&#x6709;&#x65F6;&#x88AB;&#x79F0;&#x4E3A;&#x5BF9;&#x79F0;&#x591A;&#x6267;&#x884C;&#x7EEA;&#x3014;Symmetric Multi-Threading&#xFF0C;SMT&#x3015;&#xFF09;&#x7531; CPU &#x5B9E;&#x4F5C;&#xFF0C;&#x5E76;&#x4E14;&#x662F;&#x4E2A;&#x7279;&#x4F8B;&#xFF0C;&#x56E0;&#x4E3A;&#x4E2A;&#x522B;&#x6267;&#x884C;&#x7EEA;&#x65E0;&#x6CD5;&#x771F;&#x7684;&#x540C;&#x65F6;&#x6267;&#x884C;&#x3002;&#x5B83;&#x4EEC;&#x5168;&#x90FD;&#x5171;&#x4EAB;&#x8457;&#x6682;&#x5B58;&#x5668;&#x96C6;&#x4EE5;&#x5916;&#x3001;&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x7684;&#x5904;&#x7406;&#x8D44;&#x6E90;&#x3002;&#x4E2A;&#x522B;&#x7684;&#x5904;&#x7406;&#x5668;&#x6838;&#x4E0E; CPU &#x4ECD;&#x7136;&#x5E73;&#x884C;&#x5730;&#x8FD0;&#x4F5C;&#xFF0C;&#x4F46;&#x5B9E;&#x4F5C;&#x5728;&#x6BCF;&#x9897;&#x5904;&#x7406;&#x5668;&#x6838;&#x4E0A;&#x7684;&#x6267;&#x884C;&#x7EEA;&#x4F1A;&#x53D7;&#x5230;&#x8FD9;&#x4E2A;&#x9650;&#x5236;&#x3002;&#x7406;&#x8BBA;&#x4E0A;&#xFF0C;&#x6BCF;&#x9897;&#x5904;&#x7406;&#x5668;&#x6838;&#x53EF;&#x4EE5;&#x6709;&#x8BB8;&#x591A;&#x6267;&#x884C;&#x7EEA;&#xFF0C;&#x4F46;&#x662F; &#x2013;&#x2013; &#x5230;&#x76EE;&#x524D;&#x4E3A;&#x6B62; &#x2013;&#x2013; Intel CPU &#x7684;&#x6BCF;&#x9897;&#x5904;&#x7406;&#x5668;&#x6838;&#x81F3;&#x591A;&#x4EC5;&#x6709;&#x4E24;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x3002;CPU &#x6709;&#x65F6;&#x57DF;&#x591A;&#x5DE5;&#xFF08;time-multiplex&#xFF09;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x804C;&#x8D23;&#x3002;&#x4E0D;&#x8FC7;&#x5355;&#x662F;&#x5982;&#x6B64;&#x5E76;&#x6CA1;&#x592A;&#x5927;&#x610F;&#x4E49;&#x3002;&#x5B9E;&#x9645;&#x7684;&#x4F18;&#x70B9;&#x662F;&#xFF0C;&#x5F53;&#x540C;&#x65F6;&#x6267;&#x884C;&#x7684; HT &#x88AB;&#x5EF6;&#x8FDF;&#x65F6;&#xFF0C;CPU &#x53EF;&#x4EE5;&#x8C03;&#x5EA6;&#x53E6;&#x4E00;&#x6761; HT &#xFF0C;&#x5E76;&#x5584;&#x7528;&#x50CF;&#x662F;&#x7B97;&#x6570;&#x903B;&#x8F91;&#x4E00;&#x7C7B;&#x7684;&#x53EF;&#x7528;&#x8D44;&#x6E90;&#x3002;&#x5728;&#x5927;&#x591A;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x8FD9;&#x662F;&#x7531;memory&#x5B58;&#x53D6;&#x9020;&#x6210;&#x7684;&#x5EF6;&#x8FDF;&#x3002;</p>
+<p>&#x5047;&#x5982;&#x4E24;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x6267;&#x884C;&#x5728;&#x4E00;&#x9897; HT &#x6838;&#x4E0A;&#xFF0C;&#x90A3;&#x4E48;&#x53EA;&#x6709;&#x5728;&#x4E24;&#x6761;&#x6267;&#x884C;&#x7EEA;<em>&#x5408;&#x5E76;&#x7684;&#xFF08;combined&#xFF09;</em>&#x6267;&#x884C;&#x65F6;&#x95F4;&#x5C0F;&#x4E8E;&#x5355;&#x6267;&#x884C;&#x7EEA;&#x7A0B;&#x5E8F;&#x7684;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x65F6;&#xFF0C;&#x7A0B;&#x5E8F;&#x624D;&#x4F1A;&#x6BD4;&#x5355;&#x6267;&#x884C;&#x7EEA;&#x7A0B;&#x5E8F;&#x8FD8;&#x6709;&#x6548;&#x7387;&#x3002;&#x501F;&#x7531;&#x91CD;&#x53E0;&#x7ECF;&#x5E38;&#x91CD;&#x590D;&#x53D1;&#x751F;&#x7684;&#x4E0D;&#x540C;memory&#x5B58;&#x53D6;&#x7684;&#x7B49;&#x5F85;&#x65F6;&#x95F4;&#xFF0C;&#x8FD9;&#x662F;&#x53EF;&#x80FD;&#x7684;&#x3002;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x8BA1;&#x7B97;&#x663E;&#x793A;&#x4E86;&#x4E3A;&#x4E86;&#x8FBE;&#x5230;&#x67D0;&#x7A0B;&#x5EA6;&#x7684;&#x52A0;&#x901F;&#xFF0C;cache&#x547D;&#x4E2D;&#x7387;&#x7684;&#x6700;&#x5C0F;&#x9700;&#x6C42;&#x3002;</p>
+<p>&#x4E00;&#x652F;&#x7A0B;&#x5E8F;&#x7684;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x80FD;&#x591F;&#x4EE5;&#x4E00;&#x4E2A;&#x4EC5;&#x6709;&#x4E00;&#x5C42;cache&#x7684;&#x7B80;&#x6613;&#x6A21;&#x578B;&#x6765;&#x4F30;&#x7B97;&#xFF0C;&#x5982;&#x4E0B;&#xFF08;&#x89C1; [16]&#xFF09;&#xFF1A;</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>T</mi><mrow><mtext><mi mathvariant="normal">e</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">e</mi></mtext></mrow></msub><mo>=</mo><mi>N</mi><mo>[</mo><mo>(</mo><mn>1</mn><mo>&#x2212;</mo><msub><mi>F</mi><mrow><mtext><mi mathvariant="normal">m</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">m</mi></mtext></mrow></msub><mo>)</mo><msub><mi>T</mi><mrow><mtext><mi mathvariant="normal">p</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">c</mi></mtext></mrow></msub><mo>+</mo><msub><mi>F</mi><mrow><mtext><mi mathvariant="normal">m</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">m</mi></mtext></mrow></msub><mo>(</mo><msub><mi>G</mi><mrow><mtext><mi mathvariant="normal">h</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">t</mi></mtext></mrow></msub><msub><mi>T</mi><mrow><mtext><mi mathvariant="normal">c</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">e</mi></mtext></mrow></msub><mo>+</mo><mo>(</mo><mn>1</mn><mo>&#x2212;</mo><msub><mi>G</mi><mrow><mtext><mi mathvariant="normal">h</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">t</mi></mtext></mrow></msub><mo>)</mo><msub><mi>T</mi><mrow><mtext><mi mathvariant="normal">m</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">s</mi></mtext></mrow></msub><mo>)</mo><mo>]</mo></mrow><annotation encoding="application/x-tex">
+T_{\text{exe}} = N [ (1 - F_{\text{mem}}) T_{\text{proc}} + F_{\text{mem}} (G_{\text{hit}} T_{\text{cache}} + (1 - G_{\text{hit}}) T_{\text{miss}}) ]
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord text scriptstyle cramped mtight"><span class="mord mathrm mtight">exe</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mopen">[</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">&#x2212;</span><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord text scriptstyle cramped mtight"><span class="mord mathrm mtight">mem</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span><span class="mclose">)</span><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord text scriptstyle cramped mtight"><span class="mord mathrm mtight">proc</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span><span class="mbin">+</span><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord text scriptstyle cramped mtight"><span class="mord mathrm mtight">mem</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathit">G</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord text scriptstyle cramped mtight"><span class="mord mathrm mtight">hit</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord text scriptstyle cramped mtight"><span class="mord mathrm mtight">cache</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span><span class="mbin">+</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">&#x2212;</span><span class="mord"><span class="mord mathit">G</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord text scriptstyle cramped mtight"><span class="mord mathrm mtight">hit</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span><span class="mclose">)</span><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord text scriptstyle cramped mtight"><span class="mord mathrm mtight">miss</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span><span class="mclose">)</span><span class="mclose">]</span></span></span></span></span></p>
+<p>&#x53D8;&#x6570;&#x7684;&#x610F;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtable><mtr><mtd><mrow><mi>N</mi></mrow></mtd><mtd><mrow><mrow></mrow><mo>=</mo><mtext><mi mathvariant="normal">&#x6307;</mi><mi mathvariant="normal">&#x4EE4;</mi><mi mathvariant="normal">&#x6570;</mi></mtext></mrow></mtd></mtr><mtr><mtd><mrow><msub><mi>F</mi><mrow><mtext><mi mathvariant="normal">m</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">m</mi></mtext></mrow></msub></mrow></mtd><mtd><mrow><mrow></mrow><mo>=</mo><mi>N</mi><mtext><mtext>&#xA0;</mtext><mi mathvariant="normal">&#x6B21;</mi><mi mathvariant="normal">&#x4E2D;</mi><mi mathvariant="normal">&#x5B58;</mi><mi mathvariant="normal">&#x53D6;</mi><mi mathvariant="normal">m</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">y</mi><mi mathvariant="normal">&#x7684;</mi><mi mathvariant="normal">&#x6BD4;</mi><mi mathvariant="normal">&#x7387;</mi></mtext></mrow></mtd></mtr><mtr><mtd><mrow><msub><mi>G</mi><mrow><mtext><mi mathvariant="normal">h</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">t</mi></mtext></mrow></msub></mrow></mtd><mtd><mrow><mrow></mrow><mo>=</mo><mtext><mi mathvariant="normal">&#x8F7D;</mi><mi mathvariant="normal">&#x5165;</mi><mi mathvariant="normal">&#x6B21;</mi><mi mathvariant="normal">&#x6570;</mi><mi mathvariant="normal">&#x4E2D;</mi><mi mathvariant="normal">&#x547D;</mi><mi mathvariant="normal">&#x4E2D;</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">&#x7684;</mi><mi mathvariant="normal">&#x6BD4;</mi><mi mathvariant="normal">&#x7387;</mi></mtext></mrow></mtd></mtr><mtr><mtd><mrow><msub><mi>T</mi><mrow><mtext><mi mathvariant="normal">p</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">c</mi></mtext></mrow></msub></mrow></mtd><mtd><mrow><mrow></mrow><mo>=</mo><mtext><mi mathvariant="normal">&#x6BCF;</mi><mi mathvariant="normal">&#x4E2A;</mi><mi mathvariant="normal">&#x6307;</mi><mi mathvariant="normal">&#x4EE4;</mi><mi mathvariant="normal">&#x7684;</mi><mi mathvariant="normal">&#x5468;</mi><mi mathvariant="normal">&#x671F;</mi><mi mathvariant="normal">&#x6570;</mi></mtext></mrow></mtd></mtr><mtr><mtd><mrow><msub><mi>T</mi><mrow><mtext><mi mathvariant="normal">c</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">e</mi></mtext></mrow></msub></mrow></mtd><mtd><mrow><mrow></mrow><mo>=</mo><mtext><mi mathvariant="normal">c</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">&#x547D;</mi><mi mathvariant="normal">&#x4E2D;</mi><mi mathvariant="normal">&#x7684;</mi><mi mathvariant="normal">&#x5468;</mi><mi mathvariant="normal">&#x671F;</mi><mi mathvariant="normal">&#x6570;</mi></mtext></mrow></mtd></mtr><mtr><mtd><mrow><msub><mi>T</mi><mrow><mtext><mi mathvariant="normal">m</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">s</mi></mtext></mrow></msub></mrow></mtd><mtd><mrow><mrow></mrow><mo>=</mo><mtext><mi mathvariant="normal">c</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">&#x9519;</mi><mi mathvariant="normal">&#x5931;</mi><mi mathvariant="normal">&#x7684;</mi><mi mathvariant="normal">&#x5468;</mi><mi mathvariant="normal">&#x671F;</mi><mi mathvariant="normal">&#x6570;</mi></mtext></mrow></mtd></mtr><mtr><mtd><mrow><msub><mi>T</mi><mrow><mtext><mi mathvariant="normal">e</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">e</mi></mtext></mrow></msub></mrow></mtd><mtd><mrow><mrow></mrow><mo>=</mo><mtext><mi mathvariant="normal">&#x7A0B;</mi><mi mathvariant="normal">&#x5E8F;</mi><mi mathvariant="normal">&#x6267;</mi><mi mathvariant="normal">&#x884C;</mi><mi mathvariant="normal">&#x65F6;</mi><mi mathvariant="normal">&#x95F4;</mi></mtext></mrow></mtd></mtr></mtable></mrow><annotation encoding="application/x-tex">
+\begin{aligned}
+N &amp;= \text{&#x6307;&#x4EE4;&#x6570;} \\
+F_{\text{mem}} &amp;= N \text{ &#x6B21;&#x4E2D;&#x5B58;&#x53D6;memory&#x7684;&#x6BD4;&#x7387;} \\
+G_{\text{hit}} &amp;= \text{&#x8F7D;&#x5165;&#x6B21;&#x6570;&#x4E2D;&#x547D;&#x4E2D;cache&#x7684;&#x6BD4;&#x7387;} \\
+T_{\text{proc}} &amp;= \text{&#x6BCF;&#x4E2A;&#x6307;&#x4EE4;&#x7684;&#x5468;&#x671F;&#x6570;} \\
+T_{\text{cache}} &amp;= \text{cache&#x547D;&#x4E2D;&#x7684;&#x5468;&#x671F;&#x6570;} \\
+T_{\text{miss}} &amp;= \text{cache&#x9519;&#x5931;&#x7684;&#x5468;&#x671F;&#x6570;} \\
+T_{\text{exe}} &amp;= \text{&#x7A0B;&#x5E8F;&#x6267;&#x884C;&#x65F6;&#x95F4;}
+\end{aligned}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:4.45em;"></span><span class="strut bottom" style="height:8.4em;vertical-align:-3.95em;"></span><span class="base displaystyle textstyle uncramped"><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist"><span style="top:-3.6100000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord mathit" style="margin-right:0.10903em;">N</span></span></span><span style="top:-2.4100000000000006em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord text scriptstyle cramped mtight"><span class="mord mathrm mtight">mem</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span></span></span><span style="top:-1.2100000000000006em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit">G</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord text scriptstyle cramped mtight"><span class="mord mathrm mtight">hit</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span></span></span><span style="top:-0.010000000000000397em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord text scriptstyle cramped mtight"><span class="mord mathrm mtight">proc</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span></span></span><span style="top:1.1899999999999997em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord text scriptstyle cramped mtight"><span class="mord mathrm mtight">cache</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span></span></span><span style="top:2.39em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord text scriptstyle cramped mtight"><span class="mord mathrm mtight">miss</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span></span></span><span style="top:3.5900000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord text scriptstyle cramped mtight"><span class="mord mathrm mtight">exe</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span><span class="col-align-l"><span class="vlist"><span style="top:-3.6100000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord displaystyle textstyle uncramped"></span><span class="mrel">=</span><span class="mord text displaystyle textstyle uncramped"><span class="mord mathrm cjk_fallback">&#x6307;&#x4EE4;&#x6570;</span></span></span></span><span style="top:-2.4100000000000006em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord displaystyle textstyle uncramped"></span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mord text displaystyle textstyle uncramped"><span class="mord mathrm">&#xA0;</span><span class="mord mathrm cjk_fallback">&#x6B21;&#x4E2D;&#x5B58;&#x53D6;</span><span class="mord mathrm">memory</span><span class="mord mathrm cjk_fallback">&#x7684;&#x6BD4;&#x7387;</span></span></span></span><span style="top:-1.2100000000000006em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord displaystyle textstyle uncramped"></span><span class="mrel">=</span><span class="mord text displaystyle textstyle uncramped"><span class="mord mathrm cjk_fallback">&#x8F7D;&#x5165;&#x6B21;&#x6570;&#x4E2D;&#x547D;&#x4E2D;</span><span class="mord mathrm">cache</span><span class="mord mathrm cjk_fallback">&#x7684;&#x6BD4;&#x7387;</span></span></span></span><span style="top:-0.010000000000000397em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord displaystyle textstyle uncramped"></span><span class="mrel">=</span><span class="mord text displaystyle textstyle uncramped"><span class="mord mathrm cjk_fallback">&#x6BCF;&#x4E2A;&#x6307;&#x4EE4;&#x7684;&#x5468;&#x671F;&#x6570;</span></span></span></span><span style="top:1.1899999999999997em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord displaystyle textstyle uncramped"></span><span class="mrel">=</span><span class="mord text displaystyle textstyle uncramped"><span class="mord mathrm">cache</span><span class="mord mathrm cjk_fallback">&#x547D;&#x4E2D;&#x7684;&#x5468;&#x671F;&#x6570;</span></span></span></span><span style="top:2.39em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord displaystyle textstyle uncramped"></span><span class="mrel">=</span><span class="mord text displaystyle textstyle uncramped"><span class="mord mathrm">cache</span><span class="mord mathrm cjk_fallback">&#x9519;&#x5931;&#x7684;&#x5468;&#x671F;&#x6570;</span></span></span></span><span style="top:3.5900000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="mord displaystyle textstyle uncramped"><span class="mord displaystyle textstyle uncramped"></span><span class="mrel">=</span><span class="mord text displaystyle textstyle uncramped"><span class="mord mathrm cjk_fallback">&#x7A0B;&#x5E8F;&#x6267;&#x884C;&#x65F6;&#x95F4;</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span></span></span></span></span></span></p>
+<p>&#x4E3A;&#x4E86;&#x8981;&#x8BA9;&#x4F7F;&#x7528;&#x4E24;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x6709;&#x4EFB;&#x4F55;&#x610F;&#x4E49;&#xFF0C;&#x4E24;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x4EFB;&#x4E00;&#x7684;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x90FD;&#x5FC5;&#x987B;&#x81F3;&#x591A;&#x4E3A;&#x5355;&#x6267;&#x884C;&#x7EEA;&#x7A0B;&#x5E8F;&#x7801;&#x7684;&#x4E00;&#x534A;&#x3002;&#x5728;&#x4EFB;&#x4E00;&#x8FB9;&#x7684;&#x552F;&#x4E00;&#x53D8;&#x6570;&#x4E3A;cache&#x547D;&#x4E2D;&#x7684;&#x6570;&#x91CF;&#x3002;&#x82E5;&#x662F;&#x6211;&#x4EEC;&#x6C42;&#x89E3;&#x65B9;&#x7A0B;&#x5E8F;&#xFF0C;&#x4EE5;&#x5F97;&#x5230;&#x4EE4;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x6267;&#x884C;&#x4E0D;&#x51CF;&#x6162;&#x8D85;&#x8FC7; 50% &#x4EE5;&#x4E0A;&#x6240;&#x9700;&#x7684;&#x6700;&#x5C0F;cache&#x547D;&#x4E2D;&#x7387;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x5F97;&#x5230;&#x56FE; 3.23 &#x7684;&#x7ED3;&#x679C;&#x3002;</p>
+<figure>
+  <img src="../../assets/figure-3.23.png" alt="&#x56FE; 3.23&#xFF1A;&#x52A0;&#x901F;&#x7684;&#x6700;&#x5C0F;cache&#x547D;&#x4E2D;&#x7387;">
+  <figcaption>&#x56FE; 3.23&#xFF1A;&#x52A0;&#x901F;&#x7684;&#x6700;&#x5C0F;cache&#x547D;&#x4E2D;&#x7387;</figcaption>
+</figure>
+
+<p>&#x8F93;&#x5165; &#x2013;&#x2013; &#x523B;&#x5728; X &#x8F74;&#x4E0A; &#x2013;&#x2013; &#x4E3A;&#x5355;&#x6267;&#x884C;&#x7EEA;&#x7A0B;&#x5E8F;&#x7801;&#x7684;cache&#x547D;&#x4E2D;&#x7387; <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>G</mi><mrow><mtext><mi mathvariant="normal">h</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">t</mi></mtext></mrow></msub></mrow><annotation encoding="application/x-tex"> G_{\text{hit}} </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">G</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord text scriptstyle cramped mtight"><span class="mord mathrm mtight">hit</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span></span></span></span>&#x3002;Y &#x8F74;&#x663E;&#x793A;&#x4E86;&#x591A;&#x6267;&#x884C;&#x7EEA;&#x7A0B;&#x5E8F;&#x7801;&#x7684;cache&#x547D;&#x4E2D;&#x7387;&#x3002;&#x8FD9;&#x4E2A;&#x503C;&#x6C38;&#x8FDC;&#x4E0D;&#x80FD;&#x9AD8;&#x4E8E;&#x5355;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x547D;&#x4E2D;&#x7387;&#xFF0C;&#x4E0D;&#x7136;&#x5355;&#x6267;&#x884C;&#x7EEA;&#x7A0B;&#x5E8F;&#x7801;&#x4E5F;&#x4F1A;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x6539;&#x826F;&#x7684;&#x7A0B;&#x5E8F;&#x7801;&#x3002;&#x4EE5;&#x5355;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x547D;&#x4E2D;&#x7387; &#x2013;&#x2013; &#x5728;&#x8FD9;&#x4E2A;&#x7279;&#x5B9A;&#x7684;&#x60C5;&#x51B5;&#x4E0B; &#x2013;&#x2013; &#x4F4E;&#x4E8E; 55% &#x800C;&#x8A00;&#xFF0C;&#x5728;&#x6240;&#x6709;&#x60C5;&#x51B5;&#x4E0B;&#x7A0B;&#x5E8F;&#x90FD;&#x80FD;&#x591F;&#x56E0;&#x4E3A;&#x4F7F;&#x7528;&#x6267;&#x884C;&#x7EEA;&#x800C;&#x83B7;&#x76CA;&#x3002;&#x7531;&#x4E8E;cache&#x9519;&#x5931;&#xFF0C;CPU &#x6216;&#x591A;&#x6216;&#x5C11;&#x6709;&#x8DB3;&#x591F;&#x7684;&#x7A7A;&#x9592;&#x6765;&#x6267;&#x884C;&#x7B2C;&#x4E8C;&#x6761; HT&#x3002;</p>
+<p>&#x7EFF;&#x8272;&#x7684;&#x533A;&#x57DF;&#x662F;&#x76EE;&#x6807;&#x3002;&#x5047;&#x5982;&#x5BF9;&#x6267;&#x884C;&#x7EEA;&#x800C;&#x8A00;&#x7684;&#x51CF;&#x6162;&#x5C0F;&#x4E8E; 50%&#xFF0C;&#x4E14;&#x6BCF;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x5DE5;&#x4F5C;&#x91CF;&#x90FD;&#x51CF;&#x534A;&#xFF0C;&#x90A3;&#x4E48;&#x5408;&#x5E76;&#x7684;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x5C31;&#x53EF;&#x80FD;&#x4F1A;&#x5C0F;&#x4E8E;&#x5355;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x3002;&#x4EE5;&#x7528;&#x4F5C;&#x6A21;&#x578B;&#x7684;&#x5904;&#x7406;&#x5668;&#xFF08;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x6709;&#x8457; HT &#x7684; P4 &#x7684;&#x6570;&#x636E;&#xFF09;&#x800C;&#x8A00;&#xFF0C;&#x4E00;&#x652F;&#x547D;&#x4E2D;&#x7387;&#x4E3A; 60% &#x7684;&#x5355;&#x6267;&#x884C;&#x7EEA;&#x7A0B;&#x5E8F;&#xFF0C;&#x5BF9;&#x53CC;&#x6267;&#x884C;&#x7EEA;&#x7A0B;&#x5E8F;&#x6765;&#x8BF4;&#x9700;&#x8981;&#x81F3;&#x5C11; 10% &#x7684;&#x547D;&#x4E2D;&#x7387;&#x3002;&#x8FD9;&#x901A;&#x5E38;&#x662F;&#x505A;&#x5F97;&#x5230;&#x7684;&#x3002;&#x4F46;&#x82E5;&#x662F;&#x5355;&#x6267;&#x884C;&#x7EEA;&#x7A0B;&#x5E8F;&#x7684;&#x547D;&#x4E2D;&#x7387;&#x4E3A; 95%&#xFF0C;&#x90A3;&#x4E48;&#x591A;&#x6267;&#x884C;&#x7EEA;&#x7A0B;&#x5E8F;&#x5C31;&#x9700;&#x8981;&#x81F3;&#x5C11; 80% &#x7684;&#x547D;&#x4E2D;&#x7387;&#x3002;&#x8FD9;&#x66F4;&#x96BE;&#x4E86;&#x3002;&#x5C24;&#x5176; &#x2013;&#x2013; &#x8FD9;&#x662F;&#x4F7F;&#x7528; HT &#x7684;&#x95EE;&#x9898; &#x2013;&#x2013; &#x56E0;&#x4E3A;&#x73B0;&#x5728;&#x6BCF;&#x6761; HT &#x53EF;&#x7528;&#x7684;&#x6709;&#x6548;cache&#x5927;&#x5C0F;&#xFF08;&#x8FD9;&#x91CC;&#x662F; L1d&#xFF0C;&#x5728;&#x5B9E;&#x9645;&#x4E0A; L2 &#x4E5F;&#x662F;&#x5982;&#x6B64;&#xFF09;&#x88AB;&#x780D;&#x534A;&#x4E86;&#x3002; HT &#x90FD;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#x7684;cache&#x6765;&#x8F7D;&#x5165;&#x5B83;&#x4EEC;&#x7684;&#x8D44;&#x6599;&#x3002;&#x82E5;&#x662F;&#x4E24;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x5DE5;&#x4F5C;&#x96C6;&#x6CA1;&#x6709;&#x91CD;&#x53E0;&#xFF0C;&#x90A3;&#x4E48;&#x539F;&#x59CB;&#x7684; 95% &#x547D;&#x4E2D;&#x7387;&#x4E5F;&#x4F1A;&#x6253;&#x5BF9;&#x6298;&#xFF0C;&#x56E0;&#x800C;&#x8FDC;&#x4F4E;&#x4E8E;&#x6240;&#x9700;&#x8981;&#x7684; 80%&#x3002;</p>
+<p>HT &#x56E0;&#x800C;&#x53EA;&#x6709;&#x5728;&#x6709;&#x9650;&#x8303;&#x56F4;&#x7684;&#x60C5;&#x5883;&#x4E2D;&#x6709;&#x7528;&#x3002;&#x5355;&#x6267;&#x884C;&#x7EEA;&#x7A0B;&#x5E8F;&#x7684;cache&#x547D;&#x4E2D;&#x7387;&#x5FC5;&#x987B;&#x8DB3;&#x591F;&#x4F4E;&#xFF0C;&#x4EE5;&#x5728;&#x7ED9;&#x5B9A;&#x4E0A;&#x9762;&#x7684;&#x7B49;&#x5F0F;&#x3001;&#x4EE5;&#x53CA;&#x51CF;&#x5C0F;&#x7684;cache&#x5927;&#x5C0F;&#x65F6;&#xFF0C;&#x65B0;&#x7684;&#x547D;&#x4E2D;&#x7387;&#x4ECD;&#x7136;&#x6EE1;&#x8DB3;&#x8981;&#x6C42;&#x3002;&#x8FD9;&#x65F6;&#xFF0C;&#x4E5F;&#x53EA;&#x6709;&#x8FD9;&#x65F6;&#xFF0C;&#x624D;&#x6709;&#x4EFB;&#x4F55;&#x4F7F;&#x7528; HT &#x7684;&#x610F;&#x4E49;&#x3002;&#x5B9E;&#x9645;&#x4E0A;&#x7ED3;&#x679C;&#x662F;&#x5426;&#x6BD4;&#x8F83;&#x5FEB;&#xFF0C;&#x53D6;&#x51B3;&#x4E8E;&#x5904;&#x7406;&#x5668;&#x662F;&#x5426;&#x8DB3;&#x4EE5;&#x80FD;&#x5C06;&#x4E00;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x7B49;&#x5F85;&#x65F6;&#x95F4;&#x91CD;&#x53E0;&#x5728;&#x53E6;&#x4E00;&#x6761;&#x6267;&#x884C;&#x7EEA;&#x7684;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x4E0A;&#x3002;&#x5E73;&#x884C;&#x5316;&#x7A0B;&#x5E8F;&#x7801;&#x7684;&#x95F4;&#x63A5;&#x6210;&#x672C;&#x5FC5;&#x987B;&#x88AB;&#x52A0;&#x5230;&#x65B0;&#x7684;&#x603B;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x4E0A;&#xFF0C;&#x8FD9;&#x4E2A;&#x989D;&#x5916;&#x6210;&#x672C;&#x7ECF;&#x5E38;&#x65E0;&#x6CD5;&#x5FFD;&#x89C6;&#x3002;</p>
+<p>&#x5728; 6.3.4 &#x8282;&#xFF0C;&#x6211;&#x4EEC;&#x5C06;&#x4F1A;&#x770B;&#x5230;&#x4E00;&#x79CD;&#x6267;&#x884C;&#x7EEA;&#x7D27;&#x5BC6;&#x5408;&#x4F5C;&#x3001;&#x800C;&#x901A;&#x8FC7;&#x5171;&#x6709;cache&#x7684;&#x7D27;&#x5BC6;&#x8026;&#x5408;&#x7ADF;&#x7136;&#x662F;&#x4E2A;&#x4F18;&#x70B9;&#x7684;&#x6280;&#x672F;&#x3002;&#x8FD9;&#x4E2A;&#x6280;&#x672F;&#x80FD;&#x591F;&#x7528;&#x4E8E;&#x591A;&#x79CD;&#x60C5;&#x5883;&#xFF0C;&#x53EA;&#x8981;&#x7A0B;&#x5E8F;&#x5F00;&#x53D1;&#x8005;&#x4E50;&#x4E8E;&#x5C06;&#x65F6;&#x95F4;&#x4E0E;&#x7CBE;&#x529B;&#x6295;&#x5165;&#x5230;&#x6269;&#x5C55;&#x4ED6;&#x4EEC;&#x7684;&#x7A0B;&#x5E8F;&#x7801;&#x7684;&#x8BDD;&#x3002;</p>
+<p>&#x5E94;&#x8BE5;&#x6E05;&#x695A;&#x7684;&#x662F;&#xFF0C;&#x5047;&#x5982;&#x4E24;&#x6761; HT &#x6267;&#x884C;&#x5B8C;&#x5168;&#x4E0D;&#x540C;&#x7684;&#x7A0B;&#x5E8F;&#x7801;&#xFF08;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x4E24;&#x6761;&#x786C;&#x4EF6;&#x6267;&#x884C;&#x7EEA;&#x88AB;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x5982;&#x540C;&#x5355;&#x72EC;&#x7684;&#x5904;&#x7406;&#x5668;&#x4E00;&#x822C;&#x5BF9;&#x5F85;&#xFF0C;&#x4EE5;&#x6267;&#x884C;&#x4E2A;&#x522B;&#x7684;&#x884C;&#x7A0B;&#xFF09;&#xFF0C;cache&#x5927;&#x5C0F;&#x56FA;&#x7136;&#x4F1A;&#x51CF;&#x534A;&#xFF0C;&#x8FD9;&#x8868;&#x793A;cache&#x9519;&#x5931;&#x7684;&#x663E;&#x8457;&#x6500;&#x5347;&#x3002;&#x9664;&#x975E;cache&#x8DB3;&#x591F;&#x5927;&#xFF0C;&#x4E0D;&#x7136;&#x8FD9;&#x79CD;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x6392;&#x7A0B;&#x7684;&#x5B9E;&#x884C;&#x662F;&#x6709;&#x95EE;&#x9898;&#x7684;&#x3002;&#x9664;&#x975E;&#x673A;&#x5668;&#x7531;&#x884C;&#x7A0B;&#x7EC4;&#x6210;&#x7684;&#x8D1F;&#x8F7D;&#x786E;&#x5B9E; &#x2013;&#x2013; &#x7ECF;&#x7531;&#x5B83;&#x4EEC;&#x7684;&#x8BBE;&#x8BA1; &#x2013;&#x2013; &#x80FD;&#x591F;&#x83B7;&#x76CA;&#x4E8E; HT &#xFF0C;&#x5426;&#x5219;&#x6700;&#x597D;&#x5728;&#x7535;&#x8111;&#x7684; BIOS &#x628A; HT &#x5173;&#x6389;&#x3002;<sup><a href="#fn_23" id="reffn_23">23</a></sup></p>
+<blockquote id="fn_21">
+<sup>21</sup>. &#x4EE5;&#x76F8;&#x540C;&#x5904;&#x7406;&#x5668;&#x4E0A;&#x7684;&#x4E24;&#x9897;&#x5904;&#x7406;&#x5668;&#x6838;&#x800C;&#x8A00;&#xFF0C;&#x5728;&#x8F83;&#x5C0F;&#x7684;&#x5C42;&#x7EA7;&#x4E5F;&#x662F;&#x5982;&#x6B64;&#x3002;&#x6210;&#x672C;&#x53EA;&#x5C0F;&#x4E86;&#x4E00;&#x70B9;&#x70B9;&#x3002;RFO &#x8BAF;&#x606F;&#x53EF;&#x80FD;&#x4F1A;&#x88AB;&#x591A;&#x6B21;&#x9001;&#x51FA;&#x3002;<a href="#reffn_21" title="Jump back to footnote [21] in the text."> &#x21A9;</a>
+</blockquote>
+<blockquote id="fn_22">
+<sup>22</sup>. &#x8FD9;&#x5373;&#x662F;&#x4E3A;&#x4F55;&#x6211;&#x4EEC;&#x73B0;&#x4ECA;&#x4F1A;&#x770B;&#x5230; &#x2013;&#x2013; &#x4E3E;&#x4F8B;&#x6765;&#x8BF4; &#x2013;&#x2013; &#x6709;&#x4E09;&#x4E2A;&#x63D2;&#x69FD;&#x7684; AMD Opteron &#x7CFB;&#x7EDF;&#x7684;&#x539F;&#x56E0;&#x3002;&#x5047;&#x5B9A;&#x5904;&#x7406;&#x5668;&#x53EA;&#x62E5;&#x6709;&#x4E09;&#x6761;&#x8D85;&#x8FDE;&#x7ED3;&#xFF08;hyperlink&#xFF09;&#xFF0C;&#x800C;&#x4E14;&#x4E00;&#x6761;&#x662F;&#x5317;&#x6865;&#x8FDE;&#x63A5;&#x6240;&#x9700;&#xFF0C;&#x6BCF;&#x4E2A;&#x5904;&#x7406;&#x5668;&#x90FD;&#x6B63;&#x597D;&#x76F8;&#x9694;&#x4E00;&#x8DF3;&#xFF08;hop&#xFF09;&#x3002;<a href="#reffn_22" title="Jump back to footnote [22] in the text."> &#x21A9;</a>
+</blockquote>
+<blockquote id="fn_23">
+<sup>23</sup>. &#x53E6;&#x4E00;&#x4E2A;&#x4EE4; HT &#x7EF4;&#x6301;&#x5F00;&#x542F;&#x7684;&#x7406;&#x7531;&#x662F;&#x9664;&#x9519;&#x3002;SMT &#x4EE4;&#x4EBA;&#x60CA;&#x8BB6;&#x5730;&#x5584;&#x4E8E;&#x5728;&#x5E73;&#x884C;&#x7A0B;&#x5E8F;&#x4E2D;&#x627E;&#x51FA;&#x597D;&#x51E0;&#x7EC4;&#x95EE;&#x9898;&#x3002;<a href="#reffn_23" title="Jump back to footnote [23] in the text."> &#x21A9;</a>
+</blockquote>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="write-behavior.html" class="navigation navigation-prev " aria-label="Previous page: 3.3.3. 写入行为">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="other-details.html" class="navigation navigation-next " aria-label="Next page: 3.3.5. 其它细节">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"3.3.4. 多处理器支援","level":"1.4.3.4","depth":3,"next":{"title":"3.3.5. 其它细节","level":"1.4.3.5","depth":3,"path":"cpu-caches/cpu-cache-implementation-details/other-details.md","ref":"cpu-caches/cpu-cache-implementation-details/other-details.md","articles":[]},"previous":{"title":"3.3.3. 写入行为","level":"1.4.3.3","depth":3,"path":"cpu-caches/cpu-cache-implementation-details/write-behavior.md","ref":"cpu-caches/cpu-cache-implementation-details/write-behavior.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","search-pro","-sharing","katex","github-buttons","github-issue-feedback","-highlight","prism","splitter","theme-comscore","hide-element","alerts","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"github-issue-feedback":{"repo":"sysprog21/cpumemory-zhtw"},"livereload":{},"splitter":{},"search-pro":{},"hide-element":{"elements":[".gitbook-link"]},"katex":{},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-comscore":{},"alerts":{},"github-buttons":{"buttons":[{"user":"sysprog21","repo":"cpumemory-zhtw","type":"star","size":"small"}]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"每位程式開發者都該有的記憶體知識","language":"zh-tw","gitbook":">=3.0.0","description":"本文解釋用於現代電腦硬體的記憶體子系統的結構、闡述 CPU 快取發展的考量、它們如何運作，以及程式該如何針對記憶體操作調整，從而達到最佳的效能。"},"file":{"path":"cpu-caches/cpu-cache-implementation-details/multi-processor-support.md","mtime":"2023-05-14T08:56:06.029Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2023-05-15T01:20:54.178Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github-issue-feedback/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-hide-element/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-alerts/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-theme-comscore/test.js"></script>
+        
+    
+
+    </body>
+</html>
+

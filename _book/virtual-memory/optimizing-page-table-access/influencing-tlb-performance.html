@@ -1,0 +1,1315 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-tw" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>4.3.2. 影响 TLB 效能 · 每位程式開發者都該有的記憶體知識</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-katex/katex.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-prism/prism.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-alerts/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-comscore/test.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../impact-of-virtualization.html" />
+    
+    
+    <link rel="prev" href="caveats-of-using-a-tlb.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"buttons":[{"user":"sysprog21","repo":"cpumemory-zhtw","type":"star","size":"small"}]};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="輸入並搜尋" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    关于
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../introduction.html">
+            
+                <a href="../../introduction.html">
+            
+                    
+                    1. 引言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../../commodity-hardware-today.html">
+            
+                <a href="../../commodity-hardware-today.html">
+            
+                    
+                    2. 现代商用硬件
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../../commodity-hardware-today/ram-types.html">
+            
+                <a href="../../commodity-hardware-today/ram-types.html">
+            
+                    
+                    2.1. RAM 的种类
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.1" data-path="../../commodity-hardware-today/ram-types/static-ram.html">
+            
+                <a href="../../commodity-hardware-today/ram-types/static-ram.html">
+            
+                    
+                    2.1.1. 静态 RAM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.2" data-path="../../commodity-hardware-today/ram-types/dynamic-ram.html">
+            
+                <a href="../../commodity-hardware-today/ram-types/dynamic-ram.html">
+            
+                    
+                    2.1.2. 动态 RAM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.3" data-path="../../commodity-hardware-today/ram-types/dram-access.html">
+            
+                <a href="../../commodity-hardware-today/ram-types/dram-access.html">
+            
+                    
+                    2.1.3. DRAM 存取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.4" data-path="../../commodity-hardware-today/ram-types/conclusions.html">
+            
+                <a href="../../commodity-hardware-today/ram-types/conclusions.html">
+            
+                    
+                    2.1.4. 结论
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../../commodity-hardware-today/dram-access-technical-details.html">
+            
+                <a href="../../commodity-hardware-today/dram-access-technical-details.html">
+            
+                    
+                    2.2. DRAM 存取技术细节
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.2.1" data-path="../../commodity-hardware-today/dram-access-technical-details/read-access-protocol.html">
+            
+                <a href="../../commodity-hardware-today/dram-access-technical-details/read-access-protocol.html">
+            
+                    
+                    2.2.1. 读取协议
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.2" data-path="../../commodity-hardware-today/dram-access-technical-details/precharge-and-activation.html">
+            
+                <a href="../../commodity-hardware-today/dram-access-technical-details/precharge-and-activation.html">
+            
+                    
+                    2.2.2. 预充电与有效化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.3" data-path="../../commodity-hardware-today/dram-access-technical-details/recharging.html">
+            
+                <a href="../../commodity-hardware-today/dram-access-technical-details/recharging.html">
+            
+                    
+                    2.2.3. 再充电
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.4" data-path="../../commodity-hardware-today/dram-access-technical-details/memory-types.html">
+            
+                <a href="../../commodity-hardware-today/dram-access-technical-details/memory-types.html">
+            
+                    
+                    2.2.4. memory类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.5" data-path="../../commodity-hardware-today/dram-access-technical-details/conclusions.html">
+            
+                <a href="../../commodity-hardware-today/dram-access-technical-details/conclusions.html">
+            
+                    
+                    2.2.5. 结论
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../../commodity-hardware-today/other-main-memory-users.html">
+            
+                <a href="../../commodity-hardware-today/other-main-memory-users.html">
+            
+                    
+                    2.3. 其它主memory使用者
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../../cpu-caches.html">
+            
+                <a href="../../cpu-caches.html">
+            
+                    
+                    3. CPU cache
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../../cpu-caches/cpu-caches-in-the-big-picture.html">
+            
+                <a href="../../cpu-caches/cpu-caches-in-the-big-picture.html">
+            
+                    
+                    3.1. 概观 CPU cache
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../../cpu-caches/cache-operation-at-high-level.html">
+            
+                <a href="../../cpu-caches/cache-operation-at-high-level.html">
+            
+                    
+                    3.2. 高阶cache操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../../cpu-caches/cpu-cache-implementation-details.html">
+            
+                <a href="../../cpu-caches/cpu-cache-implementation-details.html">
+            
+                    
+                    3.3. CPU cache实作细节
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.3.1" data-path="../../cpu-caches/cpu-cache-implementation-details/associativity.html">
+            
+                <a href="../../cpu-caches/cpu-cache-implementation-details/associativity.html">
+            
+                    
+                    3.3.1. 关联度
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.2" data-path="../../cpu-caches/cpu-cache-implementation-details/measurements-of-cache-effects.html">
+            
+                <a href="../../cpu-caches/cpu-cache-implementation-details/measurements-of-cache-effects.html">
+            
+                    
+                    3.3.2. cache影响的量测
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.3" data-path="../../cpu-caches/cpu-cache-implementation-details/write-behavior.html">
+            
+                <a href="../../cpu-caches/cpu-cache-implementation-details/write-behavior.html">
+            
+                    
+                    3.3.3. 写入行为
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.4" data-path="../../cpu-caches/cpu-cache-implementation-details/multi-processor-support.html">
+            
+                <a href="../../cpu-caches/cpu-cache-implementation-details/multi-processor-support.html">
+            
+                    
+                    3.3.4. 多处理器支援
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3.5" data-path="../../cpu-caches/cpu-cache-implementation-details/other-details.html">
+            
+                <a href="../../cpu-caches/cpu-cache-implementation-details/other-details.html">
+            
+                    
+                    3.3.5. 其它细节
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../../cpu-caches/instruction-cache.html">
+            
+                <a href="../../cpu-caches/instruction-cache.html">
+            
+                    
+                    3.4. 指令cache
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.4.1" data-path="../../cpu-caches/instruction-cache/self-modifying-code.html">
+            
+                <a href="../../cpu-caches/instruction-cache/self-modifying-code.html">
+            
+                    
+                    3.4.1. 自我修改的程序码
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../../cpu-caches/cache-miss-factors.html">
+            
+                <a href="../../cpu-caches/cache-miss-factors.html">
+            
+                    
+                    3.5. cache错失的因素
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.5.1" data-path="../../cpu-caches/cache-miss-factors/cache-and-memory-bandwidth.html">
+            
+                <a href="../../cpu-caches/cache-miss-factors/cache-and-memory-bandwidth.html">
+            
+                    
+                    3.5.1. cache与memory频宽
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5.2" data-path="../../cpu-caches/cache-miss-factors/critical-word-load.html">
+            
+                <a href="../../cpu-caches/cache-miss-factors/critical-word-load.html">
+            
+                    
+                    3.5.2. 关键字组的载入
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5.3" data-path="../../cpu-caches/cache-miss-factors/cache-placement.html">
+            
+                <a href="../../cpu-caches/cache-miss-factors/cache-placement.html">
+            
+                    
+                    3.5.3. cache的配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5.4" data-path="../../cpu-caches/cache-miss-factors/fsb-influence.html">
+            
+                <a href="../../cpu-caches/cache-miss-factors/fsb-influence.html">
+            
+                    
+                    3.5.4. FSB 的影响
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../../virtual-memory.html">
+            
+                <a href="../../virtual-memory.html">
+            
+                    
+                    4. 虚拟memory
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../simplest-address-translation.html">
+            
+                <a href="../simplest-address-translation.html">
+            
+                    
+                    4.1. 最简单的地址转译
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../multi-level-page-tables.html">
+            
+                <a href="../multi-level-page-tables.html">
+            
+                    
+                    4.2. 多层级分页表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../optimizing-page-table-access.html">
+            
+                <a href="../optimizing-page-table-access.html">
+            
+                    
+                    4.3. 最佳化分页表存取
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.3.1" data-path="caveats-of-using-a-tlb.html">
+            
+                <a href="caveats-of-using-a-tlb.html">
+            
+                    
+                    4.3.1. 使用 TLB 的预警
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5.3.2" data-path="influencing-tlb-performance.html">
+            
+                <a href="influencing-tlb-performance.html">
+            
+                    
+                    4.3.2. 影响 TLB 效能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../impact-of-virtualization.html">
+            
+                <a href="../impact-of-virtualization.html">
+            
+                    
+                    4.4. 虚拟化的影响
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../../numa-support.html">
+            
+                <a href="../../numa-support.html">
+            
+                    
+                    5. NUMA 支援
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../../numa-support/numa-hardware.html">
+            
+                <a href="../../numa-support/numa-hardware.html">
+            
+                    
+                    5.1. NUMA 硬件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../../numa-support/os-support-for-numa.html">
+            
+                <a href="../../numa-support/os-support-for-numa.html">
+            
+                    
+                    5.2.操作系统对 NUMA 的支援
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../../numa-support/published-information.html">
+            
+                <a href="../../numa-support/published-information.html">
+            
+                    
+                    5.3. 被发布的资讯
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../../numa-support/remote-access-costs.html">
+            
+                <a href="../../numa-support/remote-access-costs.html">
+            
+                    
+                    5.4. 远端存取成本
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../../what-programmers-can-do.html">
+            
+                <a href="../../what-programmers-can-do.html">
+            
+                    
+                    6. 程序开发者能做些什么？
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../../what-programmers-can-do/bypassing-the-cache.html">
+            
+                <a href="../../what-programmers-can-do/bypassing-the-cache.html">
+            
+                    
+                    6.1. 绕过cache
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../../what-programmers-can-do/cache-access.html">
+            
+                <a href="../../what-programmers-can-do/cache-access.html">
+            
+                    
+                    6.2. cache存取
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.2.1" data-path="../../what-programmers-can-do/cache-access/optimizing-level-1-data-cache-access.html">
+            
+                <a href="../../what-programmers-can-do/cache-access/optimizing-level-1-data-cache-access.html">
+            
+                    
+                    6.2.1. 最佳化一阶资料cache存取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2.2" data-path="../../what-programmers-can-do/cache-access/optimizing-level-1-instruction-cache-access.html">
+            
+                <a href="../../what-programmers-can-do/cache-access/optimizing-level-1-instruction-cache-access.html">
+            
+                    
+                    6.2.2. 最佳化一阶指令cache存取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2.3" data-path="../../what-programmers-can-do/cache-access/optimizing-level-2-and-higher-cache-access.html">
+            
+                <a href="../../what-programmers-can-do/cache-access/optimizing-level-2-and-higher-cache-access.html">
+            
+                    
+                    6.2.3. 最佳化二阶与更高阶cache存取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2.4" data-path="../../what-programmers-can-do/cache-access/optimizing-tlb-usage.html">
+            
+                <a href="../../what-programmers-can-do/cache-access/optimizing-tlb-usage.html">
+            
+                    
+                    6.2.4. 最佳化 TLB 使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="../../what-programmers-can-do/prefetching.html">
+            
+                <a href="../../what-programmers-can-do/prefetching.html">
+            
+                    
+                    6.3. 预取
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.3.1" data-path="../../what-programmers-can-do/prefetching/hardware-prefetching.html">
+            
+                <a href="../../what-programmers-can-do/prefetching/hardware-prefetching.html">
+            
+                    
+                    6.3.1. 硬件预取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3.2" data-path="../../what-programmers-can-do/prefetching/software-prefetching.html">
+            
+                <a href="../../what-programmers-can-do/prefetching/software-prefetching.html">
+            
+                    
+                    6.3.2. 软件预取
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3.3" data-path="../../what-programmers-can-do/prefetching/special-kind-of-prefetch-speculation.html">
+            
+                <a href="../../what-programmers-can-do/prefetching/special-kind-of-prefetch-speculation.html">
+            
+                    
+                    6.3.3. 特殊的预取类型：猜测
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3.4" data-path="../../what-programmers-can-do/prefetching/helper-threads.html">
+            
+                <a href="../../what-programmers-can-do/prefetching/helper-threads.html">
+            
+                    
+                    6.3.4. 辅助执行绪
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3.5" data-path="../../what-programmers-can-do/prefetching/direct-cache-access.html">
+            
+                <a href="../../what-programmers-can-do/prefetching/direct-cache-access.html">
+            
+                    
+                    6.3.5. 直接cache存取
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4" data-path="../../what-programmers-can-do/multi-thread-optimizations.html">
+            
+                <a href="../../what-programmers-can-do/multi-thread-optimizations.html">
+            
+                    
+                    6.4. 多执行绪最佳化
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.4.1" data-path="../../what-programmers-can-do/multi-thread-optimizations/concurrency-optimizations.html">
+            
+                <a href="../../what-programmers-can-do/multi-thread-optimizations/concurrency-optimizations.html">
+            
+                    
+                    6.4.1. 并行最佳化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4.2" data-path="../../what-programmers-can-do/multi-thread-optimizations/atomicity-optimizations.html">
+            
+                <a href="../../what-programmers-can-do/multi-thread-optimizations/atomicity-optimizations.html">
+            
+                    
+                    6.4.2. 最小操作的最佳化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4.3" data-path="../../what-programmers-can-do/multi-thread-optimizations/bandwidth-considerations.html">
+            
+                <a href="../../what-programmers-can-do/multi-thread-optimizations/bandwidth-considerations.html">
+            
+                    
+                    6.4.3. 频宽考量
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5" data-path="../../what-programmers-can-do/numa-programming.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming.html">
+            
+                    
+                    6.5. NUMA 程序设计
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.5.1" data-path="../../what-programmers-can-do/numa-programming/memory-policy.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/memory-policy.html">
+            
+                    
+                    6.5.1. memory策略
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5.2" data-path="../../what-programmers-can-do/numa-programming/specifying-policies.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/specifying-policies.html">
+            
+                    
+                    6.5.2. 指定策略
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5.3" data-path="../../what-programmers-can-do/numa-programming/swapping-and-policies.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/swapping-and-policies.html">
+            
+                    
+                    6.5.3. 置换与策略
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5.4" data-path="../../what-programmers-can-do/numa-programming/vma-policy.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/vma-policy.html">
+            
+                    
+                    6.5.4. VMA 策略
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5.5" data-path="../../what-programmers-can-do/numa-programming/querying-node-information.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/querying-node-information.html">
+            
+                    
+                    6.5.5. 查询节点资讯
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5.6" data-path="../../what-programmers-can-do/numa-programming/cpu-and-node-sets.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/cpu-and-node-sets.html">
+            
+                    
+                    6.5.6. CPU 与节点集合
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5.7" data-path="../../what-programmers-can-do/numa-programming/explicit-numa-optimizations.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/explicit-numa-optimizations.html">
+            
+                    
+                    6.5.7. 明确的 NUMA 最佳化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5.8" data-path="../../what-programmers-can-do/numa-programming/utilizing-all-bandwidth.html">
+            
+                <a href="../../what-programmers-can-do/numa-programming/utilizing-all-bandwidth.html">
+            
+                    
+                    6.5.8. 利用所有频宽
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../../examples-and-benchmark-programs.html">
+            
+                <a href="../../examples-and-benchmark-programs.html">
+            
+                    
+                    A. 范例与基准测试程序
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../../examples-and-benchmark-programs/matrix-multiplication.html">
+            
+                <a href="../../examples-and-benchmark-programs/matrix-multiplication.html">
+            
+                    
+                    A.1 矩阵乘法
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../../bibliography.html">
+            
+                <a href="../../bibliography.html">
+            
+                    
+                    参考书目
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本書使用 GitBook 釋出
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >4.3.2. 影响 TLB 效能</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="432-&#x5F71;&#x54CD;-tlb-&#x6548;&#x80FD;">4.3.2. &#x5F71;&#x54CD; TLB &#x6548;&#x80FD;</h1>
+<p>&#x6709;&#x51E0;&#x4E2A;&#x5F71;&#x54CD; TLB &#x6548;&#x80FD;&#x7684;&#x56E0;&#x7D20;&#x3002;&#x7B2C;&#x4E00;&#x4E2A;&#x662F;&#x5206;&#x9875;&#x7684;&#x5927;&#x5C0F;&#x3002;&#x663E;&#x7136;&#x5730;&#xFF0C;&#x5206;&#x9875;&#x8D8A;&#x5927;&#x3001;&#x4F1A;&#x88AB;&#x585E;&#x8FDB;&#x53BB;&#x7684;&#x6307;&#x4EE4;&#x6216;&#x8D44;&#x6599;&#x7269;&#x4EF6;&#x4E5F;&#x8D8A;&#x591A;&#x3002;&#x6240;&#x4EE5;&#x4E00;&#x4E2A;&#x6BD4;&#x8F83;&#x5927;&#x7684;cache&#x5927;&#x5C0F;&#x51CF;&#x5C11;&#x4E86;&#x6240;&#x9700;&#x5730;&#x5740;&#x8F6C;&#x8BD1;&#x7684;&#x6574;&#x4F53;&#x6570;&#x91CF;&#xFF0C;&#x4EE3;&#x8868; TLB cache&#x4E2D;&#x9700;&#x8981;&#x66F4;&#x5C11;&#x7684;&#x9879;&#x76EE;&#x3002;&#x5927;&#x90E8;&#x5206;&#x67B6;&#x6784;&#x73B0;&#x4ECA;&#x5141;&#x8BB8;&#x4F7F;&#x7528;&#x591A;&#x79CD;&#x4E0D;&#x540C;&#x7684;&#x5206;&#x9875;&#x5927;&#x5C0F;&#xFF1B;&#x6709;&#x4E9B;&#x5927;&#x5C0F;&#x80FD;&#x591F;&#x5E76;&#x5B58;&#x5730;&#x4F7F;&#x7528;&#x3002;&#x4E3E;&#x4F8B;&#x6765;&#x8BF4;&#xFF0C;x86&#xFF0F;x86-64 &#x5904;&#x7406;&#x5668;&#x62E5;&#x6709;&#x5BFB;&#x5E38;&#x7684; 4kB &#x5206;&#x9875;&#x5927;&#x5C0F;&#xFF0C;&#x4F46;&#x5B83;&#x4EEC;&#x4E5F;&#x5206;&#x522B;&#x80FD;&#x591F;&#x4F7F;&#x7528; 4MB &#x4E0E; 2MB &#x7684;&#x5206;&#x9875;&#x3002;IA-64 &#x4E0E; PowerPC &#x5141;&#x8BB8;&#x50CF;&#x662F; 64kB &#x7684;&#x5927;&#x5C0F;&#x4F5C;&#x4E3A;&#x57FA;&#x7840;&#x5206;&#x9875;&#x5927;&#x5C0F;&#x3002;</p>
+<p>&#x4E0D;&#x8FC7;&#xFF0C;&#x5927;&#x5206;&#x9875;&#x5C3A;&#x5BF8;&#x7684;&#x4F7F;&#x7528;&#x4E5F;&#x968F;&#x4E4B;&#x5E26;&#x6765;&#x4E86;&#x4E00;&#x4E9B;&#x95EE;&#x9898;&#x3002;&#x4E3A;&#x4E86;&#x5927;&#x5206;&#x9875;&#x800C;&#x4F7F;&#x7528;&#x7684;memory&#x533A;&#x57DF;&#x5728;&#x5B9E;&#x4F53;memory&#x4E2D;&#x5FC5;&#x987B;&#x662F;&#x8FDE;&#x7EED;&#x7684;&#x3002;&#x82E5;&#x662F;&#x5B9E;&#x4F53;memory&#x7BA1;&#x7406;&#x7684;&#x5355;&#x4F4D;&#x5927;&#x5C0F;&#x88AB;&#x63D0;&#x9AD8;&#x5230;&#x865A;&#x62DF;memory&#x5206;&#x9875;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x6D6A;&#x8D39;&#x7684;memory&#x603B;&#x91CF;&#x5C31;&#x4F1A;&#x589E;&#x52A0;&#x3002;&#x5404;&#x79CD;memory&#x64CD;&#x4F5C;&#xFF08;&#x50CF;&#x662F;&#x8F7D;&#x5165;&#x53EF;&#x6267;&#x884C;&#x7A0B;&#x5E8F;&#xFF09;&#x9700;&#x8981;&#x5BF9;&#x9F50;&#x5230;&#x5206;&#x9875;&#x8FB9;&#x754C;&#x3002;&#x8FD9;&#x8868;&#x793A;&#xFF0C;&#x5E73;&#x5747;&#x800C;&#x8A00;&#xFF0C;&#x5728;&#x6BCF;&#x6B21;&#x6620;&#x5C04;&#x7684;&#x5B9E;&#x4F53;memory&#x4E2D;&#xFF0C;&#x6BCF;&#x6B21;&#x6620;&#x5C04;&#x6D6A;&#x8D39;&#x4E86;&#x4E00;&#x534A;&#x7684;&#x5206;&#x9875;&#x5927;&#x5C0F;&#x3002;&#x8FD9;&#x79CD;&#x6D6A;&#x8D39;&#x80FD;&#x591F;&#x8F7B;&#x6613;&#x5730;&#x7D2F;&#x52A0;&#xFF1B;&#x8FD9;&#x56E0;&#x6B64;&#x5BF9;&#x5B9E;&#x4F53;memory&#x5206;&#x914D;&#x7684;&#x5408;&#x7406;&#x5355;&#x4F4D;&#x5927;&#x5C0F;&#x52A0;&#x4E86;&#x4E2A;&#x4E0A;&#x9650;&#x3002;</p>
+<p>&#x5C06;&#x5355;&#x4F4D;&#x5927;&#x5C0F;&#x63D0;&#x5347;&#x5230; 2MB&#xFF0C;&#x4EE5;&#x5BB9;&#x7EB3; x86-64 &#x4E0A;&#x7684;&#x5927;&#x5206;&#x9875;&#x65E0;&#x7591;&#x5E76;&#x4E0D;&#x5B9E;&#x9645;&#x3002;&#x8FD9;&#x4E2A;&#x5927;&#x5C0F;&#x592A;&#x5927;&#x4E86;&#x3002;&#x4F46;&#x8FD9;&#x53C8;&#x610F;&#x5473;&#x8457;&#x6BCF;&#x4E2A;&#x5927;&#x5206;&#x9875;&#x5FC5;&#x987B;&#x7531;&#x591A;&#x4E2A;&#x8F83;&#x5C0F;&#x7684;&#x5206;&#x9875;&#x6240;&#x6784;&#x6210;&#x3002;&#x800C;&#x4E14;&#x8FD9;&#x4E9B;&#x5C0F;&#x5206;&#x9875;&#x5728;<em>&#x5B9E;&#x4F53;</em>memory&#x4E2D;&#x5FC5;&#x987B;&#x662F;&#x8FDE;&#x7EED;&#x7684;&#x3002;&#x4EE5; 4kB &#x7684;&#x5355;&#x4F4D;&#x5206;&#x9875;&#x5927;&#x5C0F;&#x5206;&#x914D; 2MB &#x7684;&#x8FDE;&#x7EED;&#x5B9E;&#x4F53;memory&#x5177;&#x6709;&#x6311;&#x6218;&#x6027;&#x3002;&#x8FD9;&#x9700;&#x8981;&#x5BFB;&#x627E;&#x4E00;&#x4E2A;&#x6709;&#x8457; 512 &#x4E2A;&#x8FDE;&#x7EED;&#x5206;&#x9875;&#x7684;&#x7A7A;&#x9592;&#x533A;&#x57DF;&#x3002;&#x5728;&#x7CFB;&#x7EDF;&#x6267;&#x884C;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#x3001;&#x5E76;&#x4E14;&#x5B9E;&#x4F53;memory&#x53D8;&#x5F97;&#x7247;&#x6BB5;&#x4E4B;&#x540E;&#xFF0C;&#x8FD9;&#x53EF;&#x80FD;&#x6781;&#x7AEF;&#x56F0;&#x96BE;&#xFF08;&#x6216;&#x8005;&#x4E0D;&#x53EF;&#x80FD;&#xFF09;&#x3002;</p>
+<p>&#x56E0;&#x6B64;&#x5728; Linux &#x4E0A;&#xFF0C;&#x6709;&#x5FC5;&#x8981;&#x5728;&#x7CFB;&#x7EDF;&#x542F;&#x52A8;&#x7684;&#x65F6;&#x5019;&#x4F7F;&#x7528;&#x7279;&#x6B8A;&#x7684; <code>hugetlbfs</code> &#x6863;&#x6848;&#x7CFB;&#x7EDF;&#x6765;&#x5206;&#x914D;&#x8FD9;&#x4E9B;&#x5927;&#x5206;&#x9875;&#x3002;&#x4E00;&#x4E2A;&#x56FA;&#x5B9A;&#x6570;&#x91CF;&#x7684;&#x5B9E;&#x4F53;&#x5206;&#x9875;&#x4F1A;&#x88AB;&#x4FDD;&#x7559;&#x6765;&#x4E13;&#x95E8;&#x4F5C;&#x4E3A;&#x5927;&#x865A;&#x62DF;&#x5206;&#x9875;&#x6765;&#x4F7F;&#x7528;&#x3002;&#x8FD9;&#x7ED1;&#x4F4F;&#x4E86;&#x53EF;&#x80FD;&#x4E0D;&#x4F1A;&#x4E00;&#x76F4;&#x7528;&#x5230;&#x7684;&#x8D44;&#x6E90;&#x3002;&#x8FD9;&#x4E5F;&#x662F;&#x4E2A;&#x6709;&#x9650;&#x7684;&#x6C60;&#xFF08;pool&#xFF09;&#xFF1B;&#x589E;&#x52A0;&#x5B83;&#x901A;&#x5E38;&#x4EE3;&#x8868;&#x8457;&#x91CD;&#x65B0;&#x542F;&#x52A8;&#x7CFB;&#x7EDF;&#x3002;&#x5C3D;&#x7BA1;&#x5982;&#x6B64;&#xFF0C;&#x5728;&#x6548;&#x80FD;&#x8D35;&#x91CD;&#x3001;&#x8D44;&#x6E90;&#x5145;&#x8DB3;&#x3001;&#x4E14;&#x9EBB;&#x70E6;&#x7684;&#x8BBE;&#x7F6E;&#x4E0D;&#x662F;&#x4E2A;&#x5927;&#x963B;&#x788D;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5E9E;&#x5927;&#x7684;&#x5206;&#x9875;&#x4FBF;&#x4E3A;&#x5927;&#x52BF;&#x6240;&#x8D8B;&#x3002;&#x8D44;&#x6599;&#x5E93;&#x670D;&#x52A1;&#x5668;&#x5C31;&#x662F;&#x4E2A;&#x4F8B;&#x5B50;&#x3002;</p>
+<figure>
+  <pre class="language-"><code>$ eu-readelf -l /bin/ls
+Program Headers:
+  Type   Offset   VirtAddr           PhysAddr           FileSiz  MemSiz   Flg Align
+...
+  LOAD   0x000000 0x0000000000400000 0x0000000000400000 0x0132ac 0x0132ac R E 0x200000
+  LOAD   0x0132b0 0x00000000006132b0 0x00000000006132b0 0x001a71 0x001a71 RW  0x200000
+...</code></pre>
+  <figcaption>&#x56FE; 4.3&#xFF1A;ELF &#x7A0B;&#x5E8F;&#x6807;&#x5934;&#x6307;&#x793A;&#x4E86;&#x5BF9;&#x9F50;&#x9700;&#x6C42;</figcaption>
+</figure>
+
+<p>&#x63D0;&#x9AD8;&#x6700;&#x5C0F;&#x7684;&#x865A;&#x62DF;&#x5206;&#x9875;&#x5927;&#x5C0F;&#xFF08;&#x5BF9;&#x6BD4;&#x4E8E;&#x53EF;&#x9009;&#x7684;&#x5927;&#x5206;&#x9875;&#xFF09;&#x4E5F;&#x6709;&#x5B83;&#x7684;&#x95EE;&#x9898;&#x3002;memory&#x6620;&#x5C04;&#x64CD;&#x4F5C;&#xFF08;&#x4F8B;&#x5982;&#xFF0C;&#x8F7D;&#x5165;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF09;&#x5FC5;&#x987B;&#x9075;&#x5FAA;&#x8FD9;&#x4E9B;&#x5206;&#x9875;&#x5927;&#x5C0F;&#x3002;&#x4E0D;&#x53EF;&#x80FD;&#x6709;&#x66F4;&#x5C0F;&#x7684;&#x6620;&#x5C04;&#x3002;&#x4E00;&#x4E2A;&#x53EF;&#x6267;&#x884C;&#x7A0B;&#x5E8F;&#x4E0D;&#x540C;&#x90E8;&#x5206;&#x7684;&#x4F4D;&#x7F6E; &#x2013;&#x2013; &#x5BF9;&#x5927;&#x591A;&#x67B6;&#x6784;&#x800C;&#x8A00; &#x2013;&#x2013; &#x6709;&#x4E2A;&#x56FA;&#x5B9A;&#x7684;&#x5173;&#x7CFB;&#x3002;&#x82E5;&#x662F;&#x5206;&#x9875;&#x5927;&#x5C0F;&#x589E;&#x52A0;&#x5230;&#x8D85;&#x8FC7;&#x5728;&#x53EF;&#x6267;&#x884C;&#x7A0B;&#x5E8F;&#x6216;&#x8005; DSO &#x521B;&#x5EFA;&#x65F6;&#x6240;&#x8003;&#x8651;&#x7684;&#x5927;&#x5C0F;&#x65F6;&#xFF0C;&#x5C31;&#x65E0;&#x6CD5;&#x6267;&#x884C;&#x8F7D;&#x5165;&#x64CD;&#x4F5C;&#x3002;&#x5C06;&#x8FD9;&#x4E2A;&#x9650;&#x5236;&#x8BB0;&#x5728;&#x5FC3;&#x4E0A;&#x662F;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x3002;&#x56FE; 4.3 &#x663E;&#x793A;&#x4E86;&#x80FD;&#x591F;&#x5982;&#x4F55;&#x51B3;&#x5B9A;&#x4E00;&#x4E2A; ELF &#x4E8C;&#x8FDB;&#x4F4D;&#x8D44;&#x6599;&#xFF08;binary&#xFF09;&#x7684;&#x5BF9;&#x9F50;&#x9700;&#x6C42;&#x7684;&#x3002;&#x5B83;&#x88AB;&#x7F16;&#x7801;&#x5728; ELF &#x7684;&#x7A0B;&#x5E8F;&#x6807;&#x5934;&#xFF08;header&#xFF09;&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x4E00;&#x4E2A; x86-64 &#x7684;&#x4E8C;&#x8FDB;&#x4F4D;&#x8D44;&#x6599;&#xFF0C;&#x503C;&#x4E3A; <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2</mn><mn>0</mn><mn>0</mn><mn>0</mn><mn>0</mn><msub><mn>0</mn><mrow><mn>1</mn><mn>6</mn></mrow></msub><mo>=</mo><mn>2</mn><mo separator="true">,</mo><mn>0</mn><mn>9</mn><mn>7</mn><mo separator="true">,</mo><mn>1</mn><mn>5</mn><mn>2</mn><mo>=</mo><mtext><mn>2</mn><mi mathvariant="normal">M</mi><mi mathvariant="normal">B</mi></mtext></mrow><annotation encoding="application/x-tex"> 200000_{16} = 2,097,152 = \text{2MB} </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">2</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span><span class="mord"><span class="mord mathrm">0</span><span class="msupsub"><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span><span class="reset-textstyle scriptstyle cramped mtight"><span class="mord scriptstyle cramped mtight"><span class="mord mathrm mtight">1</span><span class="mord mathrm mtight">6</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">&#x200B;</span></span>&#x200B;</span></span></span></span><span class="mrel">=</span><span class="mord mathrm">2</span><span class="mpunct">,</span><span class="mord mathrm">0</span><span class="mord mathrm">9</span><span class="mord mathrm">7</span><span class="mpunct">,</span><span class="mord mathrm">1</span><span class="mord mathrm">5</span><span class="mord mathrm">2</span><span class="mrel">=</span><span class="mord text textstyle uncramped"><span class="mord mathrm">2MB</span></span></span></span></span>&#xFF0C;&#x4E0E;&#x5904;&#x7406;&#x5668;&#x6240;&#x652F;&#x63F4;&#x7684;&#x6700;&#x5927;&#x5206;&#x9875;&#x5927;&#x5C0F;&#x76F8;&#x7B26;&#x3002;</p>
+<p>&#x4F7F;&#x7528;&#x8F83;&#x5927;&#x7684;&#x5206;&#x9875;&#x5927;&#x5C0F;&#x6709;&#x4E2A;&#x6B21;&#x8981;&#x7684;&#x5F71;&#x54CD;&#xFF1A;&#x5206;&#x9875;&#x8868;&#x6811;&#x7684;&#x5C42;&#x7EA7;&#x6570;&#x91CF;&#x4F1A;&#x88AB;&#x51CF;&#x4F4E;&#x3002;&#x7531;&#x4E8E;&#x5BF9;&#x5E94;&#x5230;&#x5206;&#x9875;&#x504F;&#x79FB;&#x91CF;&#x7684;&#x865A;&#x62DF;&#x5730;&#x5740;&#x90E8;&#x5206;&#x589E;&#x52A0;&#x4E86;&#xFF0C;&#x5C31;&#x6CA1;&#x6709;&#x5269;&#x4E0B;&#x90A3;&#x4E48;&#x591A;&#x9700;&#x8981;&#x900F;&#x8FC7;&#x5206;&#x9875;&#x76EE;&#x5F55;&#x5904;&#x7406;&#x7684;&#x4F4D;&#x5143;&#x4E86;&#x3002;&#x8FD9;&#x8868;&#x793A;&#xFF0C;&#x5728;&#x4E00;&#x6B21; TLB &#x9519;&#x5931;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5FC5;&#x987B;&#x5B8C;&#x6210;&#x7684;&#x5DE5;&#x4F5C;&#x603B;&#x91CF;&#x51CF;&#x5C11;&#x4E86;&#x3002;</p>
+<p>&#x9664;&#x4E86;&#x4F7F;&#x7528;&#x5927;&#x5206;&#x9875;&#x5C3A;&#x5BF8;&#x5916;&#xFF0C;&#x4E5F;&#x53EF;&#x80FD;&#x501F;&#x7531;&#x5C06;&#x540C;&#x65F6;&#x7528;&#x5230;&#x7684;&#x8D44;&#x6599;&#x642C;&#x79FB;&#x5230;&#x8F83;&#x5C11;&#x7684;&#x5206;&#x9875;&#x4E0A;&#xFF0C;&#x4EE5;&#x51CF;&#x5C11;&#x6240;&#x9700;&#x7684; TLB &#x9879;&#x76EE;&#x6570;&#x91CF;&#x3002;&#x8FD9;&#x7C7B;&#x4F3C;&#x4E8E;&#x6211;&#x4EEC;&#x5148;&#x524D;&#x8BA8;&#x8BBA;&#x7684;&#x9488;&#x5BF9;cache&#x4F7F;&#x7528;&#x7684;&#x4E00;&#x4E9B;&#x6700;&#x4F73;&#x5316;&#x3002;
+Only now the alignment required is large.
+&#x8003;&#x8651;&#x5230; TLB &#x9879;&#x76EE;&#x7684;&#x6570;&#x91CF;&#x975E;&#x5E38;&#x5C11;&#xFF0C;&#x8FD9;&#x4F1A;&#x662F;&#x4E2A;&#x91CD;&#x8981;&#x7684;&#x6700;&#x4F73;&#x5316;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="caveats-of-using-a-tlb.html" class="navigation navigation-prev " aria-label="Previous page: 4.3.1. 使用 TLB 的预警">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../impact-of-virtualization.html" class="navigation navigation-next " aria-label="Next page: 4.4. 虚拟化的影响">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"4.3.2. 影响 TLB 效能","level":"1.5.3.2","depth":3,"next":{"title":"4.4. 虚拟化的影响","level":"1.5.4","depth":2,"path":"virtual-memory/impact-of-virtualization.md","ref":"virtual-memory/impact-of-virtualization.md","articles":[]},"previous":{"title":"4.3.1. 使用 TLB 的预警","level":"1.5.3.1","depth":3,"path":"virtual-memory/optimizing-page-table-access/caveats-of-using-a-tlb.md","ref":"virtual-memory/optimizing-page-table-access/caveats-of-using-a-tlb.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-lunr","-search","search-pro","-sharing","katex","github-buttons","github-issue-feedback","-highlight","prism","splitter","theme-comscore","hide-element","alerts","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"github-issue-feedback":{"repo":"sysprog21/cpumemory-zhtw"},"livereload":{},"splitter":{},"search-pro":{},"hide-element":{"elements":[".gitbook-link"]},"katex":{},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-comscore":{},"alerts":{},"github-buttons":{"buttons":[{"user":"sysprog21","repo":"cpumemory-zhtw","type":"star","size":"small"}]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"每位程式開發者都該有的記憶體知識","language":"zh-tw","gitbook":">=3.0.0","description":"本文解釋用於現代電腦硬體的記憶體子系統的結構、闡述 CPU 快取發展的考量、它們如何運作，以及程式該如何針對記憶體操作調整，從而達到最佳的效能。"},"file":{"path":"virtual-memory/optimizing-page-table-access/influencing-tlb-performance.md","mtime":"2023-05-14T08:56:06.024Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2023-05-15T01:20:54.178Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github-issue-feedback/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-hide-element/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-alerts/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-theme-comscore/test.js"></script>
+        
+    
+
+    </body>
+</html>
+
